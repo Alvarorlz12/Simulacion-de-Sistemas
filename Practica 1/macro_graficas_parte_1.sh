@@ -3,7 +3,7 @@
 # ./macro_graficas.sh nombre_carpeta_de_datos
 
 # Obtener los parámetros
-source params.txt
+source params_parte1.txt
 
 # Variables
 carpeta=ejecuciones/$1

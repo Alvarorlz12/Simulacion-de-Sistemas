@@ -27,7 +27,7 @@ if [ ! -d "$carpeta/img" ]; then
 fi
 
 # Generación de gráficas
-echo -e "Generando gráficas...\n"
+echo -e "\nGenerando gráficas...\n"
 for n in ${NS[@]}; do
     img_llamadas="$carpeta/img/llamadas-$1_$n.jpeg"
     datos="$carpeta/resultados-$1_$n.dat"
@@ -60,5 +60,22 @@ gnuplot -e "set term jpeg; \
             set ytics font 'arial,9'; \
             set output '$img_desviacion'; \
             plot '$datos_desviacion' using 1:2 w lp lc 1 pt 7 ps 1 lw 1.5 t '' ; \
+            " >> $errores 2>&1
+
+# Gráfica de porcentaje de llamadas perdidas 
+echo -e "\t- Gráfica de frecuencia de llamadas perdidas por encima de $UMBRAL\n"
+img_umbral="$carpeta/img/umbral-$1.jpeg"
+datos_umbral="$carpeta/resultados-pruebas-$1.dat"
+gnuplot -e "set term jpeg; \
+            set title 'Frecuencia de llamadas perdidas por encima de $UMBRAL' font 'arial,14' enhanced; \
+            set key off; \
+            set xrange [:]; \
+            set xlabel 'Número de simulaciones' font 'arial,14' enhanced; \
+            set xtics font 'arial,9'; \
+            set yrange [0:]; \
+            set ylabel 'Frecuencia' font 'arial,14' enhanced; \
+            set ytics font 'arial,9'; \
+            set output '$img_umbral'; \
+            plot '$datos_umbral' using 1:2 w lp lc 1 pt 7 ps 1 lw 1.5 t '' ; \
             " >> $errores 2>&1
 echo -e "Gráficas generadas\n"

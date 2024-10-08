@@ -28,7 +28,7 @@ void inicializacion()
 
   // inicializacion de variables de estado
   reloj = 0.0;
-  lineas_libres = num_lineas;
+  lineas_libres = N_LINEAS;
 
   // inicializacion de contadores estadisticos
   /* Contadores estadisticos */
@@ -86,7 +86,7 @@ void fin_simulacion()
   parar=true;
 
   informe[cont_simu][0] = ((float)acum_lineas_ocupadas /reloj);
-  informe[cont_simu][1] = (((float)acum_lineas_ocupadas /reloj) / num_lineas)*100.0;
+  informe[cont_simu][1] = (((float)acum_lineas_ocupadas /reloj) / N_LINEAS)*100.0;
   informe[cont_simu][2] = num_intentos;
   informe[cont_simu][3] = num_llamadas_perdidas;
   informe[cont_simu][4] = ((float)num_llamadas_perdidas/(float)num_intentos)*100.0;
@@ -224,7 +224,7 @@ int main(int argc, char *argv[])
 {
   int i, simulaciones, iteraciones;
   
-  if(argc != 3)
+  if(argc != 3 && argc != 4)
   	{
 	printf("\n\nFormato Argumentos -> <numero_simulaciones> <numero iteraciones>\n\n");
 	exit(1);
@@ -233,6 +233,12 @@ int main(int argc, char *argv[])
   srandom(123456);
   sscanf(argv[1],"%d",&simulaciones);
   sscanf(argv[2],"%d",&iteraciones);
+  // Si se introduce el número de líneas como argumento se usa ese valor,
+  // en caso contrario se usa el valor por defecto (en llamadas.h)
+  N_LINEAS = num_lineas;
+  if (argc == 4) {
+    sscanf(argv[3],"%d",&N_LINEAS);
+  }
   for(int j=0; j<iteraciones; j++)
   { 
     informe = (float **) malloc (simulaciones*sizeof(float *));

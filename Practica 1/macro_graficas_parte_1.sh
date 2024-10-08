@@ -1,6 +1,6 @@
 #! /bin/bash
 # EJECUCIÓN
-# ./macro_graficas.sh nombre_carpeta_de_datos
+# ./macro_graficas_parte_1.sh nombre_carpeta_de_datos
 
 # Obtener los parámetros
 source params_parte1.txt

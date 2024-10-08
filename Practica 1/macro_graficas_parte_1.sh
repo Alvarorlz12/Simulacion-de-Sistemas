@@ -6,9 +6,8 @@
 source params_parte1.txt
 
 # Variables
-carpeta=ejecuciones/$1
+carpeta=ejecuciones/$1-lanzamonedas
 errores="$carpeta/errores-$1.txt"
-repeticiones=(10 500 10000)
 
 # Comprobar que existe la carpeta
 if [ ! -d "$carpeta" ]; then

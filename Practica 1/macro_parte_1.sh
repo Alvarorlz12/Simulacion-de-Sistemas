@@ -6,9 +6,9 @@
 source params_parte1.txt
 
 # Compilación
-SOURCE="./src/lanzamonedas-mod.cpp"
+SRC="./src/lanzamonedas-mod.cpp"
 BIN="./bin/lanzamonedas-mod"
-g++ -O2 $SOURCE -o $BIN
+g++ -O2 $SRC -o $BIN
 
 # Comprobar que existe la carpeta bin
 if [ ! -d "bin" ]; then
@@ -21,7 +21,7 @@ if [ ! -d "ejecuciones" ]; then
 fi
 
 # Variables
-carpeta=ejecuciones/$1
+carpeta=ejecuciones/$1-lanzamonedas
 errores="$carpeta/errores-$1.txt"
 
 # Borrado de archivos antiguos

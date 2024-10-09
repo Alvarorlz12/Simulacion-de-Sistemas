@@ -230,7 +230,7 @@ int main(int argc, char *argv[])
 	exit(1);
 	}
 	srandom(time(NULL));
-  srandom(123456);
+  // srandom(123456);
   sscanf(argv[1],"%d",&simulaciones);
   sscanf(argv[2],"%d",&iteraciones);
   // Si se introduce el número de líneas como argumento se usa ese valor,

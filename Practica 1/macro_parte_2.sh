@@ -47,6 +47,9 @@ function desviacion_tipica {
 
 # Ejecución
 
+echo -e "-------------------------------------------------------------"
+echo -e " PRÁCTICA 1. Capítulo 2. Llamadas telefónicas (M.S. Discreto)"
+
 # SIMULACIÓN
 # echo -e "Realizando simulación con $M experimentos..."
 # resultado_desviacion="$carpeta/resultados-desviacion-$1.dat"
@@ -63,7 +66,7 @@ function desviacion_tipica {
 # ESTUDIO DE PARÁMETROS
 echo -e "Realizando estudio de parámetros..."
 echo -e "\n\tBuscando el número de líneas óptimo para tener una frecuencia menor a $FREQ"
-echo -e "\tde porcentaje de llamadas perdidas menor a $UMBRAL usando $SIM simulaciones:\n"
+echo -e "\tde porcentaje de llamadas perdidas mayor a $UMBRAL usando $SIM simulaciones:\n"
 # Buscar de 1 en 1 desde 50 el número de líneas óptimo, generando un fichero con los resultados
 # de cada simulación y tras calcular la desviación típica de las llamadas perdidas eliminarlo
 # si no cumple la frecuencia máxima de llamadas perdidas con un umbral de $UMBRAL o
@@ -72,7 +75,11 @@ fichero_optimo="$carpeta/resultados-optimo-$1.dat"
 fichero_pruebas="$carpeta/resultados-pruebas-$1.dat"
 for nl in $(seq 51 1 100); do
     resultados="$carpeta/resultados-optimo-$1_$nl.dat"
-    $BIN $SIM $M $nl >> $resultados 2>> $errores
+    # PRUEBAS
+    # 1 1000
+    # 1 100
+    # 10 100
+    $BIN $SIM $REP $nl >> $resultados 2>> $errores
     # Comprobar cuantas veces se supera el umbral de llamadas perdidas
     supera=$(awk -v umbral=$UMBRAL -v col=$columna '{if ($col > umbral) count++} END {print count}' "$resultados")
     n_lineas=$(awk -v col=$columna '{suma += $col; count++} END {print count}' "$resultados")
@@ -89,7 +96,7 @@ for nl in $(seq 51 1 100); do
     echo -e "$nl\t$frecuencia" >> $fichero_pruebas
     echo -e "\t- $nl líneas -> frecuencia de llamadas perdidas superiores al umbral: $frecuencia%"
     # Comprobar si la frecuencia obtenida es menor que la deseada
-    if (( $(echo "$frecuencia < $FREQ" | bc -l) )); then
+    if (( $(echo "$frecuencia < ($FREQ * 100)" | bc -l) )); then
         echo -e "\t* Número de líneas óptimo: $nl"
         NL_OPTIMO=$nl
         cat $resultados > $fichero_optimo
@@ -104,3 +111,4 @@ done
 
 rm $BIN
 
+echo -e "-------------------------------------------------------------"

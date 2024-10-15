@@ -192,7 +192,7 @@ void generador_informes(int simulaciones)
   // printf("\nNumero de llamadas perdidas en porcentaje: media(%f)%%, dt(%f)%%",media[4],dt[4]);
   // printf("\n\n");
 
-  printf("%f\n" , media[4]);
+  printf("%f" , media[4]);
 }
 
 
@@ -224,10 +224,10 @@ int main(int argc, char *argv[])
 {
   int i, simulaciones, iteraciones;
   
-  if(argc != 3 && argc != 4)
-  	{
-	printf("\n\nFormato Argumentos -> <numero_simulaciones> <numero iteraciones>\n\n");
-	exit(1);
+  if(argc != 3 && argc != 4 && argc != 6)
+  {
+    printf("\n\nFormato Argumentos -> <numero_simulaciones> <numero iteraciones> [<numero_lineas>] [<frecuencia_llamadas>] [<duracion_llamadas>]\n\n");
+    exit(1);
 	}
 	srandom(time(NULL));
   // srandom(123456);
@@ -238,6 +238,13 @@ int main(int argc, char *argv[])
   N_LINEAS = num_lineas;
   if (argc == 4) {
     sscanf(argv[3],"%d",&N_LINEAS);
+  }
+  if (argc == 6) {
+    sscanf(argv[3],"%d",&N_LINEAS);
+    sscanf(argv[4],"%f",&tllamadaA);
+    tllamadaB = tllamadaA;
+    sscanf(argv[5],"%f",&duracion_llamada);
+    duracion_llamada *= 60;
   }
   for(int j=0; j<iteraciones; j++)
   { 
@@ -260,6 +267,9 @@ int main(int argc, char *argv[])
       }
     }
     generador_informes(simulaciones);
+
+    // Mostrar resultados
+    printf("\t%d\t%d\t%f\n", N_LINEAS, tllamadaA, duracion_llamada/60);
     
     for(i=0; i<simulaciones; i++)
       free(informe[i]);

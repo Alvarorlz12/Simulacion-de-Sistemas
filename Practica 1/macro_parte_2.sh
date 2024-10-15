@@ -106,6 +106,20 @@ for nl in $(seq 51 1 100); do
     rm $resultados
 done
 
+# Comprobar porcentaje de llamadas perdidas en función de la frecuencia de 
+# llamadas y la duración de las mismas
+echo -e "\n\tEstudiando la frecuencia de llamadas perdidas en función de la duración de las llamadas"
+echo -e "\ty la frecuencia de las mismas:\n"
+resultados_variable="$carpeta/resultados-variable-$1.dat"
+for d in ${DURACIONES[@]}; do
+    for t in ${TLLAMADAS[@]}; do
+        $BIN 100 $REP $NL_OPTIMO $d $f >> $resultados 2>> $errores
+        # Calcular la desviación típica de las llamadas perdidas
+        desviacion=$(desviacion_tipica $resultados $columna)
+        echo -e "$d\t$f\t$desviacion" >> $resultados_variable
+    done
+done
+
 # Generación de gráficas
 ./macro_graficas_parte_2.sh $1
 

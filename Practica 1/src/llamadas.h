@@ -37,7 +37,7 @@ int cont_simu;
 /* Parametros de entrada */
 int num_lineas = 50;
 int N_LINEAS = num_lineas;
-float duracion_llamada = 60*4;
+float duracion_llamada = 60*4;	// 4 minutos
 float tllamadaA = 12;
 float tllamadaB = 10;
 float tparada = 12*3600; // 12 horas

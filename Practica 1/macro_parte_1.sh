@@ -34,6 +34,9 @@ mkdir "$carpeta"
 
 # Ejecución
 
+echo -e "-------------------------------------------------------------"
+echo -e " PRÁCTICA 1. Capítulo 1. Juego de monedas (M.S. de MonteCarlo)"
+
 # SIMULACIÓN ESTÁNDAR
 echo -e "Realizando simulación..."
 echo -e "\t$PL€ coste tirada, $PF€ premio, probabilidad $P, $K seguidos, $ITER iteraciones"
@@ -80,3 +83,4 @@ echo -e "Estudio de parámetros p y k realizado\n"
 
 rm $BIN
 
+echo -e "-------------------------------------------------------------"

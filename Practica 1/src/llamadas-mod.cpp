@@ -251,9 +251,6 @@ int main(int argc, char *argv[])
     informe = (float **) malloc (simulaciones*sizeof(float *));
     for(i=0; i<simulaciones; i++)
       informe[i] = (float *) malloc (5*sizeof(float));
-
-    
-  
   
     printf("%d\t",j);
 
@@ -269,7 +266,7 @@ int main(int argc, char *argv[])
     generador_informes(simulaciones);
 
     // Mostrar resultados
-    printf("\t%d\t%d\t%f\n", N_LINEAS, tllamadaA, duracion_llamada/60);
+    printf("\t%d\t%f\t%f\n", N_LINEAS, tllamadaA, duracion_llamada/60);
     
     for(i=0; i<simulaciones; i++)
       free(informe[i]);

@@ -78,4 +78,32 @@ gnuplot -e "set term jpeg; \
             set output '$img_umbral'; \
             plot '$datos_umbral' using 1:2 w lp lc 1 pt 7 ps 1 lw 1.5 t '' ; \
             " >> $errores 2>&1
+
+# Gráfica de porcentaje de llamadas perdidas en función de la duración de las llamadas
+# y de la frecuencia de las mismas
+echo -e "\t- Gráfica de porcentaje de llamadas perdidas en función de la duración de las llamadas y de la frecuencia de las mismas\n"
+img_var_d_t="$carpeta/img/variable-duracion-tiempo-$1.jpeg"
+datos_var_d_t="$carpeta/resultados-estudio-d-f-$1.dat"
+gnuplot -e "set term pngcairo size 1280,960 enhanced font 'arial,14'; \
+            set title 'Porcentaje de llamadas perdidas en función de la duración y frecuencia' font 'arial,24'; \
+            set key off; \
+            set xlabel 'Duración de las llamadas (min)' font 'arial,14' rotate by 33; \
+            set ylabel 'Frecuencia de las llamadas (s)' font 'arial,14' rotate parallel; \
+            set zlabel 'Porcentaje de llamadas perdidas (%)' font 'arial,14' rotate parallel; \
+            set xrange [2:6]; \
+            set yrange [1:12]; \
+            set zrange [0:100]; \
+            set xtics font 'arial,12' offset -0.5,+0; \
+            set ytics font 'arial,12' offset -1.0,-0.25; \
+            set ztics font 'arial,12'; \
+            set grid xtics ytics ztics; \
+            set view 60, 120, 1, 1; \
+            set pm3d at s; \
+            set palette defined (0 'blue', 50 'yellow', 100 'red'); \
+            set hidden3d front; \
+            set style line 1 lc rgb 'purple' lw 1.5 pt 7 ps 1.5; \
+            set output '$img_var_d_t'; \
+            splot '$datos_var_d_t' using 1:2:3 with linespoints ls 1 lw 1 pt 7 ps 1 lc 'grey' title '', '' using 1:2:3 with pm3d; \
+            " >> $errores 2>&1
+
 echo -e "Gráficas generadas\n"

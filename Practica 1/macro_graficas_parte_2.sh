@@ -70,7 +70,7 @@ gnuplot -e "set term jpeg; \
             set title 'Frecuencia de llamadas perdidas por encima de $UMBRAL%' font 'arial,14' enhanced; \
             set key off; \
             set xrange [:]; \
-            set xlabel 'Número de simulaciones' font 'arial,14' enhanced; \
+            set xlabel 'Número de líneas' font 'arial,14' enhanced; \
             set xtics font 'arial,9'; \
             set yrange [0:]; \
             set ylabel 'Frecuencia (%)' font 'arial,14' enhanced; \

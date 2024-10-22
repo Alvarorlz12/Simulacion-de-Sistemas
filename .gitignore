@@ -1,6 +1,11 @@
+.vscode/*
 Practica 1/ejecuciones/*
 !Practica 1/ejecuciones/final*/
 !Practica 1/ejecuciones/final*/*
 Practica 1/bin/*
 Practica 1/.vscode/*
-.vscode/*
+Practica 2/ejecuciones/*
+!Practica 2/ejecuciones/final*/
+!Practica 2/ejecuciones/final*/*
+Practica 2/bin/*
+Practica 2/.vscode/*

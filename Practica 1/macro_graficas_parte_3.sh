@@ -54,4 +54,56 @@ for pp in ${P_PEQ[@]}; do
     done
 done
 
+echo -e "\nGráfica de campaña de pesca sobre peces grandes a los $FECHA_PESCA días con F=$F_INICIAL"
+for pgs in ${PESCA_PG_SOLO[@]}; do
+    img_lago_pesca="$carpeta/img/lago-$1_pesca_${F_INICIAL}_$pgs.jpeg"
+    datos_lago_pesca="$carpeta/resultados-$1_pesca_${F_INICIAL}_$pgs.dat"
+    porcentaje=$(echo "scale=2; $pgs * 100" | bc -l)
+
+    echo -e "\t- Gráfica de campaña de pesca ($pp peces pequeños, $pg peces grandes, $porcentaje% peces grandes pescados)"
+    gnuplot -e "set term jpeg size 800,600; \
+                set title 'Campaña de pesca a los $FECHA_PESCA días sobre $porcentaje% de peces grandes' font 'arial,14'; \
+                set key outside center bot horizontal font 'arial,12'; \
+                set key box lt rgb 'gray' lw 1; \
+                set xlabel 'Día' font 'arial,14' enhanced; \
+                set xtics font 'arial,9'; \
+                set yrange [0:]; \
+                set ylabel 'Número de peces pequeños' font 'arial,14' enhanced; \
+                set ytics font 'arial,9' nomirror; \
+                set y2tics font 'arial,9'; \
+                set y2range [0:]; \
+                set y2label 'Número de peces grandes' font 'arial,14' enhanced; \
+                set output '$img_lago_pesca'; \
+                plot '$datos_lago_pesca' using 1:2 axes x1y1 w lp lc 1 pt 7 ps 1 lw 1 t 'Peces pequeños', \
+                        '$datos_lago_pesca' using 1:3 axes x1y2 w lp lc 2 pt 7 ps 1 lw 1 t 'Peces grandes'; \
+                " >> $errores 2>&1
+done
+echo -e "\nGráfica de campaña de pesca sobre peces grandes a los $FECHA_PESCA días con F=$F_MOD"
+for pgs in ${PESCA_PG_SOLO[@]}; do
+    img_lago_pesca="$carpeta/img/lago-$1_pesca_${F_MOD}_$pgs.jpeg"
+    datos_lago_pesca="$carpeta/resultados-$1_pesca_${F_MOD}_$pgs.dat"
+    porcentaje=$(echo "scale=2; $pgs * 100" | bc -l)
+
+    echo -e "\t- Gráfica de campaña de pesca ($pp peces pequeños, $pg peces grandes, $porcentaje% peces grandes pescados)"
+    gnuplot -e "set term jpeg size 800,600; \
+                set title 'Campaña de pesca a los $FECHA_PESCA días sobre $porcentaje% de peces grandes' font 'arial,14'; \
+                set key outside center bot horizontal font 'arial,12'; \
+                set key box lt rgb 'gray' lw 1; \
+                set xlabel 'Día' font 'arial,14' enhanced; \
+                set xtics font 'arial,9'; \
+                set yrange [0:]; \
+                set ylabel 'Número de peces pequeños' font 'arial,14' enhanced; \
+                set ytics font 'arial,9' nomirror; \
+                set y2tics font 'arial,9'; \
+                set y2range [0:]; \
+                set y2label 'Número de peces grandes' font 'arial,14' enhanced; \
+                set output '$img_lago_pesca'; \
+                plot '$datos_lago_pesca' using 1:2 axes x1y1 w lp lc 1 pt 7 ps 1 lw 1 t 'Peces pequeños', \
+                        '$datos_lago_pesca' using 1:3 axes x1y2 w lp lc 2 pt 7 ps 1 lw 1 t 'Peces grandes'; \
+                " >> $errores 2>&1
+done
+
+
+
+
 echo -e "Gráficas generadas\n"

@@ -44,7 +44,7 @@ for pp in ${P_PEQ[@]}; do
     for pg in ${P_GRAN[@]}; do
         echo -e "\t- $pp peces pequeños iniciales, $pg peces grandes iniciales, $DURACION duración"
         resultados_busqueda_equilibrio="$carpeta/resultados-$1_$pp-$pg.dat"
-        $BIN $DURACION $pp $pg >> $resultados_busqueda_equilibrio 2>> $errores
+        $BIN $DURACION $pp $pg $F_INICIAL >> $resultados_busqueda_equilibrio 2>> $errores
     done
 done
 echo -e "Simulación realizada\n"
@@ -73,6 +73,23 @@ echo -e "Simulación realizada\n"
 #     rm $resultados_busqueda_equilibrio
 # done
 # echo -e "Simulación realizada\n"
+
+echo -e "Estudio de campañas de pesca en el lago..."
+echo -e "Simulación de campaña de pesca a los $FECHA_PESCA días con F=$F_INICIAL..."
+for pgs in ${PESCA_PG_SOLO[@]} ; do
+    porcentaje=$(echo "scale=2; $pgs * 100" | bc -l)
+    echo -e "\t- $pp peces pequeños iniciales, $pg peces grandes iniciales, $DURACION duración, $porcentaje% peces grandes a pescar"
+    resultados_pesca_grandes_f_ini="$carpeta/resultados-$1_pesca_${F_INICIAL}_$pgs.dat"
+    $BIN $DURACION $PP_INI_PESCA $PG_INI_PESCA $F_INICIAL $FECHA_PESCA 0.0 $pgs >> $resultados_pesca_grandes_f_ini 2>> $errores
+done
+echo -e "Simulación de campaña de pesca a los $FECHA_PESCA días con F=$F_MOD..."
+for pgs in ${PESCA_PG_SOLO[@]} ; do
+    porcentaje=$(echo "scale=2; $pgs * 100" | bc -l)
+    echo -e "\t- $pp peces pequeños iniciales, $pg peces grandes iniciales, $DURACION duración, $porcentaje% peces grandes a pescar"
+    resultados_pesca_grandes_f_mod="$carpeta/resultados-$1_pesca_${F_MOD}_$pgs.dat"
+    $BIN $DURACION $PP_INI_PESCA $PG_INI_PESCA $F_MOD $FECHA_PESCA 0.0 $pgs >> $resultados_pesca_grandes_f_mod 2>> $errores
+done
+echo -e "Estudio de campañas de pesca realizado\n"
 
 # Generación de gráficas
 ./macro_graficas_parte_3.sh $1

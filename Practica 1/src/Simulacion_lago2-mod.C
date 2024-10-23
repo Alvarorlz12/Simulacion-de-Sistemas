@@ -209,6 +209,7 @@ int main(int argc, char * argv[]) {
 	// Se pesca
 	if (__P_dias > 0.0) {
 		for (double t = _tinicio; t < (_tfin - 10e-8); t += inc) {
+			resolver(t, t + inc, aux);
 			// Pesca --------------------------------------------- 
 			if ((int)t % (int)__P_dias == 0) {
 				__x[0] -= __P_peq*__x[0];
@@ -217,7 +218,6 @@ int main(int argc, char * argv[]) {
 				if (__y[0] < 0.0) __y[0] = 0.0;
 			}
 			// ---------------------------------------------------
-			resolver(t, t + inc, aux);
 			cout << "\t" << aux[0] << "\t" << aux[1] << "\t" << aux[2] << endl;
 		}
 	} else {

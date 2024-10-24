@@ -61,7 +61,7 @@ for pgs in ${PESCA_PG_SOLO[@]}; do
     porcentaje=$(echo "scale=2; $pgs * 100" | bc -l)
 
     echo -e "\t- Gráfica de campaña de pesca ($pp peces pequeños, $pg peces grandes, $porcentaje% peces grandes pescados)"
-    gnuplot -e "set term jpeg size 800,600; \
+    gnuplot -e "set term jpeg size 800,600 enhanced font 'arial,14'; \
                 set title 'Campaña de pesca a los $FECHA_PESCA días sobre $porcentaje% de peces grandes' font 'arial,14'; \
                 set key outside center bot horizontal font 'arial,12'; \
                 set key box lt rgb 'gray' lw 1; \
@@ -85,7 +85,7 @@ for pgs in ${PESCA_PG_SOLO[@]}; do
     porcentaje=$(echo "scale=2; $pgs * 100" | bc -l)
 
     echo -e "\t- Gráfica de campaña de pesca ($pp peces pequeños, $pg peces grandes, $porcentaje% peces grandes pescados)"
-    gnuplot -e "set term jpeg size 800,600; \
+    gnuplot -e "set term jpeg size 800,600 enhanced font 'arial,14'; \
                 set title 'Campaña de pesca a los $FECHA_PESCA días sobre $porcentaje% de peces grandes' font 'arial,14'; \
                 set key outside center bot horizontal font 'arial,12'; \
                 set key box lt rgb 'gray' lw 1; \
@@ -116,12 +116,12 @@ echo $max_point > max_point.dat
 x_max=$(echo $max_point | awk '{print $1}')
 y_max=$(echo $max_point | awk '{print $2}')
 z_max=$(echo $max_point | awk '{print $3}')
-gnuplot -e "set term pngcairo size 1280,960 enhanced font 'arial,14'; \
-            set title 'Política de pesca sobre peces grandes con F=$F_INICIAL' font 'arial,24'; \
+gnuplot -e "set term pngcairo size 1280,960 enhanced font 'arial,18'; \
+            set title 'Política de pesca sobre peces grandes con F=$F_INICIAL' font 'arial,30'; \
             set key off; \
-            set xlabel 'Días entre campañas de pesca' font 'arial,14' rotate by 33; \
-            set ylabel 'Porcentaje de peces grandes pescados' font 'arial,14' rotate parallel; \
-            set zlabel 'Total de capturas' font 'arial,14' rotate parallel offset -1,0; \
+            set xlabel 'Días entre campañas de pesca' font 'arial,18' rotate by 33; \
+            set ylabel 'Porcentaje de peces grandes pescados' font 'arial,18' rotate parallel; \
+            set zlabel 'Total de capturas' font 'arial,18' rotate parallel offset -1,0; \
             set xrange [0:]; \
             set yrange [0:]; \
             set zrange [0:]; \
@@ -136,7 +136,7 @@ gnuplot -e "set term pngcairo size 1280,960 enhanced font 'arial,14'; \
             set style line 1 lc rgb 'purple' lw 1.5 pt 7 ps 1.5; \
             set style line 2 lc rgb 'red' lw 3 pt 7 ps 2.5; \
             set style line 3 lc rgb 'black' lw 3 pt 1 ps 3; \
-            set label sprintf('Max: días=%.2f, porcentaje=%.2f, capturas=%.2f', $x_max, $y_max, $z_max) at $x_max, $y_max, $z_max front offset char 1,1 tc rgb 'black' font 'arial,14'; \
+            set label sprintf('Max: días=%.2f, pcent=%.2f, capturas=%.2f', $x_max, $y_max, $z_max) at $x_max, $y_max, $z_max front offset char 1,1 tc rgb 'black' font 'arial,16'; \
             set output '$img_lago_politica_grandes_f_ini'; \
             splot '$datos_lago_politica_grandes_f_ini' using 1:2:3 with linespoints ls 1 lw 1 pt 7 ps 1 lc 'grey' title '', '' using 1:2:3 with pm3d, \
                   'max_point.dat' using 1:2:3 with points ls 3 title 'Punto máximo'; \
@@ -155,12 +155,12 @@ echo $max_point > max_point.dat
 x_max=$(echo $max_point | awk '{print $1}')
 y_max=$(echo $max_point | awk '{print $2}')
 z_max=$(echo $max_point | awk '{print $3}')
-gnuplot -e "set term pngcairo size 1280,960 enhanced font 'arial,14'; \
-            set title 'Política de pesca sobre peces grandes con F=$F_MOD' font 'arial,24'; \
+gnuplot -e "set term pngcairo size 1280,960 enhanced font 'arial,18'; \
+            set title 'Política de pesca sobre peces grandes con F=$F_MOD' font 'arial,30'; \
             set key off; \
-            set xlabel 'Días entre campañas de pesca' font 'arial,14' rotate by 33; \
-            set ylabel 'Porcentaje de peces grandes pescados' font 'arial,14' rotate parallel; \
-            set zlabel 'Total de capturas' font 'arial,14' rotate parallel offset -1,0; \
+            set xlabel 'Días entre campañas de pesca' font 'arial,18' rotate by 33; \
+            set ylabel 'Porcentaje de peces grandes pescados' font 'arial,18' rotate parallel; \
+            set zlabel 'Total de capturas' font 'arial,18' rotate parallel offset -1,0; \
             set xrange [0:]; \
             set yrange [0:]; \
             set zrange [0:]; \
@@ -175,7 +175,7 @@ gnuplot -e "set term pngcairo size 1280,960 enhanced font 'arial,14'; \
             set style line 1 lc rgb 'purple' lw 1.5 pt 7 ps 1.5; \
             set style line 2 lc rgb 'red' lw 3 pt 7 ps 2.5; \
             set style line 3 lc rgb 'black' lw 3 pt 1 ps 3; \
-            set label sprintf('Max: días=%.2f, porcentaje=%.2f, capturas=%.2f', $x_max, $y_max, $z_max) at $x_max, $y_max, $z_max front offset char 1,1 tc rgb 'black' font 'arial,14'; \
+            set label sprintf('Max: días=%.2f, pcent=%.2f, capturas=%.2f', $x_max, $y_max, $z_max) at $x_max, $y_max, $z_max front offset char 1,1 tc rgb 'black' font 'arial,16'; \
             set output '$img_lago_politica_grandes_f_mod'; \
             splot '$datos_lago_politica_grandes_f_mod' using 1:2:3 with linespoints ls 1 lw 1 pt 7 ps 1 lc 'grey' title '', '' using 1:2:3 with pm3d, \
                   'max_point.dat' using 1:2:3 with points ls 3 title 'Punto máximo'; \
@@ -197,12 +197,12 @@ echo $max_point > max_point.dat
 x_max=$(echo $max_point | awk '{print $1}')
 y_max=$(echo $max_point | awk '{print $2}')
 z_max=$(echo $max_point | awk '{print $3}')
-gnuplot -e "set term pngcairo size 1280,960 enhanced font 'arial,14'; \
-            set title 'Política de pesca sobre peces grandes y pequeños con F=$F_INICIAL' font 'arial,24'; \
+gnuplot -e "set term pngcairo size 1280,960 enhanced font 'arial,18'; \
+            set title 'Política de pesca sobre peces grandes y pequeños con F=$F_INICIAL' font 'arial,30'; \
             set key off; \
-            set xlabel 'Días entre campañas de pesca' font 'arial,14' rotate by 33; \
-            set ylabel 'Porcentaje de peces grandes pescados' font 'arial,14' rotate parallel; \
-            set zlabel 'Total de capturas' font 'arial,14' rotate parallel offset -1,0; \
+            set xlabel 'Días entre campañas de pesca' font 'arial,18' rotate by 33; \
+            set ylabel 'Porcentaje de peces grandes pescados' font 'arial,18' rotate parallel; \
+            set zlabel 'Total de capturas' font 'arial,18' rotate parallel offset -1,0; \
             set xrange [0:]; \
             set yrange [0:]; \
             set zrange [0:]; \
@@ -217,7 +217,7 @@ gnuplot -e "set term pngcairo size 1280,960 enhanced font 'arial,14'; \
             set style line 1 lc rgb 'purple' lw 1.5 pt 7 ps 1.5; \
             set style line 2 lc rgb 'red' lw 3 pt 7 ps 2.5; \
             set style line 3 lc rgb 'black' lw 3 pt 1 ps 3; \
-            set label sprintf('Max: días=%.2f, porcentaje=%.2f, capturas=%.2f', $x_max, $y_max, $z_max) at $x_max, $y_max, $z_max front offset char 1,1 tc rgb 'black' font 'arial,14'; \
+            set label sprintf('Max: días=%.2f, pcent=%.2f, capturas=%.2f', $x_max, $y_max, $z_max) at $x_max, $y_max, $z_max front offset char 1,1 tc rgb 'black' font 'arial,16'; \
             set output '$img_lago_politica_ambos_f_ini'; \
             splot '$datos_lago_politica_ambos_f_ini' using 1:2:3 with linespoints ls 1 lw 1 pt 7 ps 1 lc 'grey' title '', '' using 1:2:3 with pm3d, \
                   'max_point.dat' using 1:2:3 with points ls 3 title 'Punto máximo'; \
@@ -236,12 +236,12 @@ echo $max_point > max_point.dat
 x_max=$(echo $max_point | awk '{print $1}')
 y_max=$(echo $max_point | awk '{print $2}')
 z_max=$(echo $max_point | awk '{print $3}')
-gnuplot -e "set term pngcairo size 1280,960 enhanced font 'arial,14'; \
-            set title 'Política de pesca sobre peces grandes y pequeños con F=$F_MOD' font 'arial,24'; \
+gnuplot -e "set term pngcairo size 1280,960 enhanced font 'arial,18'; \
+            set title 'Política de pesca sobre peces grandes y pequeños con F=$F_MOD' font 'arial,30'; \
             set key off; \
-            set xlabel 'Días entre campañas de pesca' font 'arial,14' rotate by 33; \
-            set ylabel 'Porcentaje de peces grandes pescados' font 'arial,14' rotate parallel; \
-            set zlabel 'Total de capturas' font 'arial,14' rotate parallel offset -1,0; \
+            set xlabel 'Días entre campañas de pesca' font 'arial,18' rotate by 33; \
+            set ylabel 'Porcentaje de peces grandes pescados' font 'arial,18' rotate parallel; \
+            set zlabel 'Total de capturas' font 'arial,18' rotate parallel offset -1,0; \
             set xrange [0:]; \
             set yrange [0:]; \
             set zrange [0:]; \
@@ -256,7 +256,7 @@ gnuplot -e "set term pngcairo size 1280,960 enhanced font 'arial,14'; \
             set style line 1 lc rgb 'purple' lw 1.5 pt 7 ps 1.5; \
             set style line 2 lc rgb 'red' lw 3 pt 7 ps 2.5; \
             set style line 3 lc rgb 'black' lw 3 pt 1 ps 3; \
-            set label sprintf('Max: días=%.2f, porcentaje=%.2f, capturas=%.2f', $x_max, $y_max, $z_max) at $x_max, $y_max, $z_max front offset char 1,1 tc rgb 'black' font 'arial,14'; \
+            set label sprintf('Max: días=%.2f, pcent=%.2f, capturas=%.2f', $x_max, $y_max, $z_max) at $x_max, $y_max, $z_max front offset char 1,1 tc rgb 'black' font 'arial,16'; \
             set output '$img_lago_politica_ambos_f_mod'; \
             splot '$datos_lago_politica_ambos_f_mod' using 1:2:3 with linespoints ls 1 lw 1 pt 7 ps 1 lc 'grey' title '', '' using 1:2:3 with pm3d, \
                   'max_point.dat' using 1:2:3 with points ls 3 title 'Punto máximo'; \

@@ -91,6 +91,85 @@ for pgs in ${PESCA_PG_SOLO[@]} ; do
 done
 echo -e "Estudio de campañas de pesca realizado\n"
 
+echo -e "Estudio de políticas de pesca que afectan a peces grandes solo en el lago..."
+resultados_politica_pesca_grandes_f_ini="$carpeta/resultados-$1_pesca_grandes_f${F_INICIAL}.dat"
+for ld in ${L_DIAS[@]} ; do
+    for prg in ${PORCENTAJE_PESCA[@]} ; do
+        porcentaje=$(echo "scale=2; $prg * 100" | bc -l)
+        echo -e "\t- pescando $porcentaje% de peces grandes a los $ld días y F=$F_INICIAL"
+        res_politica_pesca_grandes_parcial="$carpeta/resultados-$1_pesca_grandes_$prg_$ld_f${F_INICIAL}.dat"
+        $BIN $DURACION $PP_INI_PESCA $PG_INI_PESCA $F_INICIAL $ld 0.0 $prg > $res_politica_pesca_grandes_parcial 2>> $errores
+        ultima_linea=$(tail -n 1 $res_politica_pesca_grandes_parcial)
+        capturas=$(echo "$ultima_linea" | awk '{print $4}')
+        # Asignar 0 a capturas si el valor es NaN
+        if [ -z "$capturas" ]; then
+            capturas=0
+        fi
+        echo -e "$ld $prg $capturas" >> $resultados_politica_pesca_grandes_f_ini
+        rm $res_politica_pesca_grandes_parcial
+    done
+    echo -e "" >> $resultados_politica_pesca_grandes_f_ini
+done
+resultados_politica_pesca_grandes_f_mod="$carpeta/resultados-$1_pesca_grandes_f${F_MOD}.dat"
+for ld in ${L_DIAS[@]} ; do
+    for prg in ${PORCENTAJE_PESCA[@]} ; do
+        porcentaje=$(echo "scale=2; $prg * 100" | bc -l)
+        echo -e "\t- pescando $porcentaje% de peces grandes a los $ld días y F=$F_MOD"
+        res_politica_pesca_grandes_parcial="$carpeta/resultados-$1_pesca_grandes_$prg_$ld_f${F_MOD}.dat"
+        $BIN $DURACION $PP_INI_PESCA $PG_INI_PESCA $F_MOD $ld 0.0 $prg > $res_politica_pesca_grandes_parcial 2>> $errores
+        ultima_linea=$(tail -n 1 $res_politica_pesca_grandes_parcial)
+        capturas=$(echo "$ultima_linea" | awk '{print $4}')
+        # Asignar 0 a capturas si el valor es NaN
+        if [ -z "$capturas" ]; then
+            capturas=0
+        fi
+        echo -e "$ld $prg $capturas" >> $resultados_politica_pesca_grandes_f_mod
+        rm $res_politica_pesca_grandes_parcial
+    done
+    echo -e "" >> $resultados_politica_pesca_grandes_f_mod
+done
+echo -e "Estudio de políticas de pesca que afectan a peces grandes solo en el lago realizado\n"
+
+echo -e "Estudio de políticas de pesca que afectan a peces grandes y pequeños en el lago..."
+echo -e "\t* suponemos que las redes empleadas capturan tanto peces grandes como pequeños en la misma proporción"
+resultados_politica_pesca_ambos_f_ini="$carpeta/resultados-$1_pesca_ambos_f${F_INICIAL}.dat"
+for ld in ${L_DIAS[@]} ; do
+    for prg in ${PORCENTAJE_PESCA[@]} ; do
+        porcentaje=$(echo "scale=2; $prg * 100" | bc -l)
+        echo -e "\t- pescando $porcentaje% de peces grandes y pequeños a los $ld días y F=$F_INICIAL"
+        res_politica_pesca_ambos_parcial="$carpeta/resultados-$1_pesca_ambos_$prg_$ld_f${F_INICIAL}.dat"
+        $BIN $DURACION $PP_INI_PESCA $PG_INI_PESCA $F_INICIAL $ld $prg $prg > $res_politica_pesca_ambos_parcial 2>> $errores
+        ultima_linea=$(tail -n 1 $res_politica_pesca_ambos_parcial)
+        capturas=$(echo "$ultima_linea" | awk '{print $4}')
+        # Asignar 0 a capturas si el valor es NaN
+        if [ -z "$capturas" ]; then
+            capturas=0
+        fi
+        echo -e "$ld $prg $capturas" >> $resultados_politica_pesca_ambos_f_ini
+        rm $res_politica_pesca_ambos_parcial
+    done
+    echo -e "" >> $resultados_politica_pesca_ambos_f_ini
+done
+resultados_politica_pesca_ambos_f_mod="$carpeta/resultados-$1_pesca_ambos_f${F_MOD}.dat"
+for ld in ${L_DIAS[@]} ; do
+    for prg in ${PORCENTAJE_PESCA[@]} ; do
+        porcentaje=$(echo "scale=2; $prg * 100" | bc -l)
+        echo -e "\t- pescando $porcentaje% de peces grandes y pequeños a los $ld días y F=$F_MOD"
+        res_politica_pesca_ambos_parcial="$carpeta/resultados-$1_pesca_ambos_$prg_$ld_f${F_MOD}.dat"
+        $BIN $DURACION $PP_INI_PESCA $PG_INI_PESCA $F_MOD $ld $prg $prg > $res_politica_pesca_ambos_parcial 2>> $errores
+        ultima_linea=$(tail -n 1 $res_politica_pesca_ambos_parcial)
+        capturas=$(echo "$ultima_linea" | awk '{print $4}')
+        # Asignar 0 a capturas si el valor es NaN
+        if [ -z "$capturas" ]; then
+            capturas=0
+        fi
+        echo -e "$ld $prg $capturas" >> $resultados_politica_pesca_ambos_f_mod
+        rm $res_politica_pesca_ambos_parcial
+    done
+    echo -e "" >> $resultados_politica_pesca_ambos_f_mod
+done
+echo -e "Estudio de políticas de pesca que afectan a peces grandes y pequeños en el lago realizado\n"
+
 # Generación de gráficas
 ./macro_graficas_parte_3.sh $1
 

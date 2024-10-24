@@ -34,6 +34,8 @@ double __F = 5.0;
 double __P_peq = 0.0;
 double __P_gra = 0.0;
 double __P_dias = 0.0;
+double __peces_grandes_pescados = 0.0;
+double __peces_grandes_pescados_total = 0.0;
 
 // Vectors of model's variables 
 double * __x = new double[1];
@@ -213,17 +215,19 @@ int main(int argc, char * argv[]) {
 			// Pesca --------------------------------------------- 
 			if ((int)t % (int)__P_dias == 0) {
 				__x[0] -= __P_peq*__x[0];
-				__y[0] -= __P_gra*__y[0];
+                __peces_grandes_pescados = __P_gra*__y[0];
+                __peces_grandes_pescados_total += __peces_grandes_pescados;
+				__y[0] -= __peces_grandes_pescados;
 				if (__x[0] < 0.0) __x[0] = 0.0;
 				if (__y[0] < 0.0) __y[0] = 0.0;
 			}
 			// ---------------------------------------------------
-			cout << "\t" << aux[0] << "\t" << aux[1] << "\t" << aux[2] << endl;
+			cout << "\t" << aux[0] << "\t" << aux[1] << "\t" << aux[2] << "\t" << __peces_grandes_pescados_total << endl;
 		}
 	} else {
 		for (double t = _tinicio; t < (_tfin - 10e-8); t += inc) {
 			resolver(t, t + inc, aux);
-			cout << "\t" << aux[0] << "\t" << aux[1] << "\t" << aux[2] << endl;
+			cout << "\t" << aux[0] << "\t" << aux[1] << "\t" << aux[2] << "\t" << __peces_grandes_pescados_total << endl;
 		}
 	}
 }

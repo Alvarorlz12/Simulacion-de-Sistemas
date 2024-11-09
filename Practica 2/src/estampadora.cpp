@@ -213,7 +213,8 @@ int main (int argc, char *argv[])
         exit(-1);
     }
 
-    srand(time(NULL));
+    // srand(time(NULL));
+    srandom(123456789);
 
     construir_tabla_estados(argv[1]);
     veces = atoi(argv[2]);

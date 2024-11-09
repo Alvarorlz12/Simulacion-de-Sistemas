@@ -160,11 +160,11 @@ int siguiente_estado(void)
 }
 
 /**
- * @brief Función que actualiza el coste de las estampaciones en función del
- *        estado actual de la máquina y del número de pares desajustados
+ * @brief Función que simula un estampado. Actualiza el coste de las estampaciones 
+ *        en función del estado actual de la máquina y del número de pares desajustados
  * @post La variable 'coste' contiene el coste actualizado
  */
-void actualizar_coste(void)
+void estampar(void)
 {
     coste += NUM_PARES[estado_actual] * FACTOR_COSTE_PARES;
 }
@@ -220,7 +220,17 @@ int main (int argc, char *argv[])
     max_estampaciones = atoi(argv[3]);
     // Crear regla de mantenimiento
     ReglaMantenimiento regla;
-    regla.estado = atoi(argv[4]);
+    int estado_regla = atoi(argv[4]);
+    // Si estado_regla es -1 no se aplica la regla
+    // Si estado_regla está entre [1,5] se establece en el estado
+    //    y por la forma en la que se ha introducido el estado, se resta 1
+    if (estado_regla >= 1 && estado_regla <= NUM_ESTADOS)
+    {
+        regla.estado = estado_regla - 1;
+    } else if (estado_regla != -1){
+        cout << "El estado de la regla de mantenimiento no es válido" << endl;
+        exit(-1);
+    }
     // Si estampaciones_regla está entre [0,1] se establece en el porcentaje de estampaciones
     // Si estampaciones_regla es mayor que 1 se establece en el número de estampaciones
     double estampaciones_regla = atof(argv[5]);
@@ -231,6 +241,12 @@ int main (int argc, char *argv[])
     else if (estampaciones_regla >= 1)
     {
         regla.estampaciones_realizadas = (int)estampaciones_regla;
+        if (regla.estampaciones_realizadas > max_estampaciones)
+        {
+            cout << "El número de estampaciones de la regla de mantenimiento no \
+                     puede ser mayor que el número de estampaciones" << endl;
+            exit(-1);
+        }
     } else if (estampaciones_regla != -1){
         cout << "El número de estampaciones de la regla de mantenimiento no es válido" << endl;
         exit(-1);
@@ -248,12 +264,8 @@ int main (int argc, char *argv[])
         cout << "El número de estampaciones debe ser un número positivo" << endl;
         exit(-1);
     }
-    // Verificar que el estado de la regla de mantenimiento es válido
-    if (regla.estado < 0 || regla.estado >= NUM_ESTADOS)
-    {
-        cout << "El estado de la regla de mantenimiento no es válido" << endl;
-        exit(-1);
-    }
+
+    cout << regla.estampaciones_realizadas << endl;
 
     // Mostrar tabla de estados
     // mostrar_tabla_estados();
@@ -261,7 +273,6 @@ int main (int argc, char *argv[])
     // Simulación de la máquina estampadora
     for (int i = 0; i < veces; i++)
     {
-        // srand(time(NULL)); // Reiniciar semilla en cada iteración
         estado_actual = ESTADO_INICIAL;
         coste = 0.0;
         num_mantenimientos = 0;
@@ -269,12 +280,14 @@ int main (int argc, char *argv[])
         media_est_mantenimiento = 0.0;
         for (int j = 0; j < max_estampaciones; j++)
         {
-            estado_actual = siguiente_estado();
-            frecuencia_estados[estado_actual]++;
-            actualizar_coste();
+            // 1. Comprobar si se aplica mantenimiento
             mantenimiento(regla, j+1);
-            // cout << "Estado actual: " << estado_actual+1 << endl;
-            // cout << "Coste actual: " << coste << endl;
+            // 2. Estampar
+            estampar();
+            // 3. Calcular siguiente estado
+            estado_actual = siguiente_estado();
+            // 4. Actualizar frecuencia de estados
+            frecuencia_estados[estado_actual]++;
         }
         double coste_simulacion = coste / max_estampaciones;
         double media_est_mantenimiento_simulacion = media_est_mantenimiento / num_mantenimientos;

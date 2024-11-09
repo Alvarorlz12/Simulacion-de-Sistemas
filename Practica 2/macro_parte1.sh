@@ -22,7 +22,10 @@ fi
 
 # Variables
 carpeta=ejecuciones/$1-estampadora
-errores="$carpeta/errores-$1.txt"
+sabiendo_estado="$carpeta/sabiendo_estado"
+sin_saber_estado="$carpeta/sin_saber_estado"
+errores_se="$sabiendo_estado/errores-$1.txt"
+errores_sse="$sin_saber_estado/errores-$1.txt"
 
 # Borrado de archivos antiguos
 if [ -d "$carpeta" ]; then
@@ -31,6 +34,8 @@ fi
 
 # Creación de la carpeta
 mkdir "$carpeta"
+mkdir "$sabiendo_estado"
+mkdir "$sin_saber_estado"
 
 # Ejecución
 
@@ -44,9 +49,16 @@ echo -e "\tBúsqueda de regla de mantenimiento óptima minimizando el coste prom
 counter=0   # Contador de reglas
 for r in "${REGLAS_ESTADO[@]}"; do
     counter=$((counter + 1))
-    res_estado="$carpeta/resultados-$1_regla$counter.dat"
+    res_estado="$sabiendo_estado/resultados-$1_regla$counter.dat"
     echo -e "\t - Procesando regla de mantenimiento $counter: $r"
-    $BIN $TABLA_ESTADOS $NUM_VECES $NUM_ESTAMPACIONES $r >> $res_estado 2>> $errores
+    $BIN $TABLA_ESTADOS $NUM_VECES $NUM_ESTAMPACIONES $r >> $res_estado 2>> $errores_se
+done
+counter=0   # Contador de reglas
+for r in "${REGLAS_ESTAMP[@]}"; do
+    counter=$((counter + 1))
+    res_estado="$sin_saber_estado/resultados-$1_regla$counter.dat"
+    echo -e "\t - Procesando regla de mantenimiento $counter: $r"
+    $BIN $TABLA_ESTADOS $NUM_VECES $NUM_ESTAMPACIONES $r >> $res_estado 2>> $errores_sse
 done
 echo -e "Simulación realizada\n"
 

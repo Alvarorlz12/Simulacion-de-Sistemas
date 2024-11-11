@@ -14,7 +14,7 @@ int veces;  // Número de veces que se ejecuta el bucle
 
 struct Celda{ //para la tabla de busqueda
     int indice;
-    double prob;
+    float prob;
 };
 
 // Generación de un número uniformemente distribuido en [0, 1)]
@@ -63,10 +63,10 @@ Celda* construye_tabla_reordenada(int n){
         exit(1);
     }
     max = n*(n+1)/2;
-    temp[0].prob = (double)n/max;
+    temp[0].prob = (float)n/max;
     temp[0].indice = n;
     for (i=1;i<n;i++) {
-        temp[i].prob = (double)(n-i)/max;
+        temp[i].prob = (float)(n-i)/max;
         temp[i].indice = n-i;   
     }
     // Calcular probabilidades acumuladas
@@ -74,6 +74,8 @@ Celda* construye_tabla_reordenada(int n){
     {
         temp[i].prob += temp[i-1].prob;
     }
+    // Truncar la probabilidad acumulada del último valor
+    temp[n-1].prob = 1.0f;
     return temp;
 }
 
@@ -86,7 +88,6 @@ Celda* construye_tabla_reordenada(int n){
 void mostrar_tabla(Celda* tabla, int tama){
     for (int i = 0; i < tama; i++)
     {
-        cout << fixed << setprecision(10);
         cout << "Indice: " << tabla[i].indice << " Probabilidad: " << tabla[i].prob << endl;
     }
 }
@@ -140,11 +141,15 @@ int genera_valor_busqueda_binaria(Celda* tabla, int tama){
  * @param u_fijo Valor de u fijo
  * @return Valor generado
  */
-int genera_valor_peor_caso(Celda* tabla, int tama, double u_fijo){
+int genera_valor_peor_caso(Celda* tabla, int tama, float u_fijo){
     int i = 0;
+    // cout << "\tfunc: u_fijo: " << u_fijo << endl;
     while((i<tama) && (u_fijo>=tabla[i].prob))
         i++;
+    
+    cout << "\tfunc: i: " << i << " | prob: " << tabla[i].prob << " | tam: " << tama << endl;
 
+    // cout << "\tfunc: i: " << i << endl;
     return tabla[i].indice;
 }
 
@@ -156,7 +161,7 @@ int genera_valor_peor_caso(Celda* tabla, int tama, double u_fijo){
  * @param u_fijo Valor de u fijo
  * @return Valor generado
  */
-int genera_valor_peor_caso_busqueda_binaria(Celda* tabla, int tama, double u_fijo){
+int genera_valor_peor_caso_busqueda_binaria(Celda* tabla, int tama, float u_fijo){
     int i = 0;
     int j = tama-1;
     int k;
@@ -183,7 +188,7 @@ int main(int argc, char* argv[]){
     bool medir_tiempo;  // Modo de tiempo
     int semilla;    // Semilla para el generador de números aleatorios
     Celda* tabla_busqueda;  // Tabla de búsqueda
-    double u_fijo = -1; // Valor de u fijo para el peor caso
+    float u_fijo = -1; // Valor de u fijo para el peor caso
     bool peor_caso = false; // Modo peor caso
 
     // Formato: ./generador <tamano_tabla> <veces> [<tipo_generador> <medir_tiempo> <semilla>]
@@ -238,11 +243,11 @@ int main(int argc, char* argv[]){
         construir_tabla = construye_tabla_reordenada;
 
     // Establecer el valor de u fijo para el peor caso dependiendo del tipo de generador
-    int (*generar_peor_caso)(Celda*, int, double) = genera_valor_peor_caso;
+    int (*generar_peor_caso)(Celda*, int, float) = genera_valor_peor_caso;
     if (medir_tiempo && peor_caso) {
         // Tabla de búsqueda creciente o decreciente y búsqueda secuencial
         if (tipo_generador == 0 || tipo_generador == 2)
-            u_fijo = (double)RAND_MAX/(double)(RAND_MAX+1.0);
+            u_fijo = (float)RAND_MAX/(float)(RAND_MAX+1.0);
         // Tabla de búsqueda creciente y búsqueda binaria
         else if (tipo_generador == 1) {  
             u_fijo = 0.25;
@@ -268,6 +273,7 @@ int main(int argc, char* argv[]){
         if (peor_caso) {
             for (int i = 0; i < veces; i++) {
                 valor = generar_peor_caso(tabla_busqueda, tama, u_fijo); 
+                cout << valor << endl;   
             }    
         } else {
             for (int i = 0; i < veces; i++) {
@@ -286,6 +292,10 @@ int main(int argc, char* argv[]){
 
     // Mostrar tabla de búsqueda
     // mostrar_tabla(tabla_busqueda, tama);
+    cout << fixed << setprecision(10);
+    cout << "u_fijo: " << u_fijo << endl;
+    cout << "ultimo valor: " << tabla_busqueda[tama-1].prob << endl;
+    cout << ((u_fijo >= tabla_busqueda[tama-1].prob) ? "Correcto" : "Incorrecto") << endl;
     free(tabla_busqueda);   // Liberar memoria de la tabla de búsqueda
     return(0);
    

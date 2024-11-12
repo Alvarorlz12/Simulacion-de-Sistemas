@@ -1,6 +1,6 @@
 reset
 n=10 #number of intervals. Aumentar o disminuir si se quiere más o menos granularidad en el histograma
-a=0.7 # el parametro de la distribucion trapezoidal. Cambiar por el valor utilizado para generar los datos
+a=0.4 # el parametro de la distribucion trapezoidal. Cambiar por el valor utilizado para generar los datos
 max=1.0	#max value
 min=0.0	#min value
 width=(max-min)/n	#interval width

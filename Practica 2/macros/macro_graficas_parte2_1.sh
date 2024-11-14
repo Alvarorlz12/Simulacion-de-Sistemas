@@ -93,9 +93,9 @@ else
     echo "El archivo $datos_tabla_decr_sec no existe, está vacío o no tiene suficientes datos."
 fi
 
-# Gráfica de tiempo de ejecución en función de número de valores
-img_tiempo_valores="$carpeta/img/tiempo_valores-$1.jpeg"
-datos_tiempo_valores="$carpeta/resultados-$1_tiempo_valores.dat"
+# Gráfica de tiempo de ejecución en función de número de valores (barras)
+img_tiempo_valor_fijo="$carpeta/img/tiempo_valores-$1.jpeg"
+datos_tiempo_valores="$carpeta/resultados-$1_tiempo_valores_fijo.dat"
 
 # Transformar el archivo de datos de tiempo de ejecución en función del número de valores
 # para que se pueda representar en una gráfica de barras. Se obtendrá la última columna
@@ -105,7 +105,7 @@ awk '{print $4}' "$datos_tiempo_valores" | paste -sd ' ' - > "$temp_datos_tiempo
 
 if [ -s "$temp_datos_tiempo_valores" ]; then
     gnuplot -e "set terminal jpeg; \
-                set output '$img_tiempo_valores'; \
+                set output '$img_tiempo_valor_fijo'; \
                 set title 'Tiempo de ejecución en función del número de valores'; \
                 set ylabel 'Tiempo (ms)'; \
                 unset xlabel; \
@@ -126,6 +126,34 @@ fi
 # Eliminar archivos temporales
 rm "$temp_datos_tiempo_valores"
 
+# Gráfica de tiempo de ejecución en función del número de valores generados (líneas)
+img_tiempo_valores="$carpeta/img/tiempos_en_funcion_valores-$1.jpeg"
+datos_tiempos_cs="$carpeta/resultados-$1_tiempo_valores_cs.dat"
+datos_tiempos_cb="$carpeta/resultados-$1_tiempo_valores_cb.dat"
+datos_tiempos_ds="$carpeta/resultados-$1_tiempo_valores_ds.dat"
+
+# Generar gráfica de tiempo de ejecución en función del tamaño de la tabla
+if [ -s "$datos_tiempos_cs" ] && [ -s "$datos_tiempos_cb" ] && [ -s "$datos_tiempos_ds" ]; then
+    gnuplot -e "reset; \
+                set terminal jpeg; \
+                set output '$img_tiempo_valores'; \
+                set title 'Tiempo de ejecución en función del número de valores' font 'Arial, 16'; \
+                set xlabel 'Número de valores aleatorios generados'; \
+                set ylabel 'Tiempo (s)'; \
+                set key left top; \
+                set style data lines; \
+                set xtics ('100000' 100000, '1000000' 1000000) nomirror; \
+                set ytics nomirror; \
+                set style line 1 lc rgb '#1f77b4' lt 1 lw 2; \
+                set style line 2 lc rgb '#d62728' lt 1 lw 2; \
+                set style line 3 lc rgb '#2ca02c' lt 1 lw 2; \
+                plot '$datos_tiempos_cs' using 3:4 title 'T. Crec. | B. Sec.' ls 1, \
+                     '$datos_tiempos_cb' using 3:4 title 'T. Crec. | B. Bin.' ls 2, \
+                     '$datos_tiempos_ds' using 3:4 title 'T. Dec. | B. Sec.' ls 3;" >> $errores 2>&1
+else
+    echo "Uno o más archivos de datos de tiempo de ejecución no existen, están vacíos o no tienen suficientes datos."
+fi
+
 # Gráfica de tiempo de ejecución en función del tamaño de la tabla
 img_tiempo_tabla="$carpeta/img/tiempo_tabla-$1.jpeg"
 datos_tiempo_tabla_crec_sec="$carpeta/tiempos_tabla_crec_sec.dat"
@@ -138,13 +166,16 @@ if [ -s "$datos_tiempo_tabla_crec_sec" ] && [ -s "$datos_tiempo_tabla_crec_bin" 
                 set output '$img_tiempo_tabla'; \
                 set title 'Tiempo de ejecución en función del tamaño de la tabla'; \
                 set xlabel 'Tamaño de la tabla'; \
-                set ylabel 'Tiempo (ms)'; \
+                set ylabel 'Tiempo (s)'; \
                 set key outside right top; \
                 set style data linespoints; \
                 set xtics rotate by -45; \
-                plot '$datos_tiempo_tabla_crec_sec' using 2:4 title 'T. Crec. | B. Sec.' linecolor rgb '#1f77b4', \
-                     '$datos_tiempo_tabla_crec_bin' using 2:4 title 'T. Crec. | B. Bin.' linecolor rgb '#ff7f0e', \
-                     '$datos_tiempo_tabla_decr_sec' using 2:4 title 'T. Dec. | B. Sec.' linecolor rgb '#2ca02c';" >> $errores 2>&1
+                set style line 1 lc rgb '#1f77b4' lt 1 lw 2 pt 7 ps 1; \
+                set style line 2 lc rgb '#d62728' lt 1 lw 2 pt 5 ps 1; \
+                set style line 3 lc rgb '#2ca02c' lt 1 lw 2 pt 9 ps 1; \
+                plot '$datos_tiempo_tabla_crec_sec' using 2:4 title 'T. Crec. | B. Sec.' ls 1, \
+                     '$datos_tiempo_tabla_crec_bin' using 2:4 title 'T. Crec. | B. Bin.' ls 2, \
+                     '$datos_tiempo_tabla_decr_sec' using 2:4 title 'T. Dec. | B. Sec.' ls 3;" >> $errores 2>&1
 else
     echo "Uno o más archivos de datos de tiempo de ejecución no existen, están vacíos o no tienen suficientes datos."
 fi

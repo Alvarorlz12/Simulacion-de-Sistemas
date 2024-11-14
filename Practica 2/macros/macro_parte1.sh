@@ -60,6 +60,19 @@ for r in "${REGLAS_ESTAMP[@]}"; do
     echo -e "\t - Procesando regla de mantenimiento $counter: $r"
     $BIN $TABLA_ESTADOS $NUM_VECES $NUM_ESTAMPACIONES $r >> $res_estado 2>> $errores_sse
 done
+# Repetir el proceso para generar los datos variando el número de estampación
+res_iterando_nest_sse="$sin_saber_estado/resultados-$1_iterando_nest.dat" 
+counter=0   # Contador de reglas
+temp="$sabiendo_estado/temp.dat"
+for n_est in $(seq 1 20) ; do
+    $BIN $TABLA_ESTADOS $NUM_VECES $NUM_ESTAMPACIONES -1 $n_est > $temp 2>> $errores_se
+    # Extraer los datos de la penúltima línea y quedarnos con la media del 
+    # coste (columna 2 de la penúltima línea) en una variable
+    media_coste=$(tail -n 2 $temp | head -n 1 | awk '{print $2}')
+    echo "$n_est $media_coste" >> $res_iterando_nest_sse
+done
+# Eliminar el archivo temporal
+rm $temp
 echo -e "Simulación realizada\n"
 
 # Generación de gráficas

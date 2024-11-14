@@ -56,11 +56,17 @@ rm ./../bin/frecuencias
 # Generación de datos de tiempo de ejecución: en función del número de valores
 echo -e "Generando datos de tiempo de ejecución..."
 echo -e "\t - Generando $NUM_GEN_TIEMPOS valores usando tabla de búsqueda creciente de tamaño $TAM y búsqueda secuencial"
-$BIN $TAM $NUM_GEN_TIEMPOS 0 1 0 -1 >> $carpeta/resultados-$1_tiempo_valores.dat 2>> $errores
+$BIN $TAM $NUM_GEN_TIEMPOS 0 1 0 -1 >> $carpeta/resultados-$1_tiempo_valores_fijo.dat 2>> $errores
 echo -e "\t - Generando $NUM_GEN_TIEMPOS valores usando tabla de búsqueda creciente de tamaño $TAM y búsqueda binaria"
-$BIN $TAM $NUM_GEN_TIEMPOS 1 1 0 -1 >> $carpeta/resultados-$1_tiempo_valores.dat 2>> $errores
+$BIN $TAM $NUM_GEN_TIEMPOS 1 1 0 -1 >> $carpeta/resultados-$1_tiempo_valores_fijo.dat 2>> $errores
 echo -e "\t - Generando $NUM_GEN_TIEMPOS valores usando tabla de búsqueda decreciente de tamaño $TAM y búsqueda secuencial"
-$BIN $TAM $NUM_GEN_TIEMPOS 2 1 0 -1 >> $carpeta/resultados-$1_tiempo_valores.dat 2>> $errores
+$BIN $TAM $NUM_GEN_TIEMPOS 2 1 0 -1 >> $carpeta/resultados-$1_tiempo_valores_fijo.dat 2>> $errores
+echo -e "\t - Generando datos variando el número de valores generados"
+for i in $(seq $INI_VALS $INC_VALS $FIN_VALS); do
+    $BIN $TAM $i 0 1 0 -1 >> $carpeta/resultados-$1_tiempo_valores_cs.dat 2>> $errores
+    $BIN $TAM $i 1 1 0 -1 >> $carpeta/resultados-$1_tiempo_valores_cb.dat 2>> $errores
+    $BIN $TAM $i 2 1 0 -1 >> $carpeta/resultados-$1_tiempo_valores_ds.dat 2>> $errores
+done
 echo -e "Datos de tiempo de ejecución generados"
 
 # Generación de datos de tiempo de ejecución: peor caso variando tamaño de tabla

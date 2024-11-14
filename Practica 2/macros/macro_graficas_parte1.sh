@@ -70,6 +70,7 @@ for r in "${REGLAS_ESTADO[@]}"; do
     echo -e "\t- Gráfica de iteración vs. coste (regla $counter)"
     media_coste=$(awk '{print $2}' $sabiendo_estado/medias.dat)
     gnuplot -e "set term jpeg; \
+                set title 'Coste medio por estampación con regla $counter' font 'arial,16' enhanced; \
                 set key on; \
                 set key box lt 1 lw 1 lc rgb 'black'; \
                 set key opaque; \
@@ -149,6 +150,7 @@ for r in "${REGLAS_ESTAMP[@]}"; do
     echo -e "\t- Gráfica de iteración vs. coste (regla $counter)"
     media_coste=$(awk '{print $2}' $sin_saber_estado/medias.dat)
     gnuplot -e "set term jpeg; \
+                set title 'Coste medio por estampación con regla $counter' font 'arial,16' enhanced; \
                 set key on; \
                 set key box lt 1 lw 1 lc rgb 'black'; \
                 set key opaque; \
@@ -199,6 +201,34 @@ for r in "${REGLAS_ESTAMP[@]}"; do
 done
 # Eliminar archivos temporales
 rm $sin_saber_estado/datos.dat $sin_saber_estado/medias.dat $sin_saber_estado/estados.dat
+
+# Generar gráfica de media de coste en función del número de estampaciones que se
+# realizan hasta llevar a cabo un mantenimiento
+echo -e "Generando gráfica de media de coste en función del número de estampaciones..."
+img_coste_estampaciones="$sin_saber_estado/img/coste_segun_estampaciones_para_mantener-$1.png"
+datos_coste_estampaciones="$sin_saber_estado/resultados-$1_iterando_nest.dat"
+
+# Generar gráfica de media de coste en función del número de estampaciones
+min_coste=$(awk 'NR==1 || $2 < min {min=$2; x=$1} END {print x, min}' $datos_coste_estampaciones)
+min_x=$(echo $min_coste | awk '{print $1}')
+min_y=$(echo $min_coste | awk '{print $2}')
+
+gnuplot -e "set term pngcairo dashed; \
+            set title 'Coste medio en función del nº de estampaciones para mantenimiento' font 'arial,14' enhanced; \
+            set key on; \
+            set key box lt 1 lw 1 lc rgb 'black'; \
+            set key opaque; \
+            set xrange [0:]; \
+            set xlabel 'Número de estampaciones' font 'arial,14' enhanced; \
+            set xtics font 'arial,9' nomirror; \
+            set yrange [:]; \
+            set ylabel 'Coste medio (€)' font 'arial,14' enhanced; \
+            set ytics font 'arial,9' nomirror; \
+            set output '$img_coste_estampaciones'; \
+            set arrow from $min_x,graph 0.28 to $min_x,($min_y+0.1) head lw 2 lc rgb 'red'; \
+            set label 1 'Mínimo: ($min_x, $min_y)' at ($min_x+1.2),graph 0.32 center; \
+            plot '$datos_coste_estampaciones' using 1:2 w lp lc rgb 'magenta' pt 7 ps 1 lw 2 dt '-' t 'Coste medio'; \
+            " >> $errores 2>&1
 
 echo -e "Gráficas generadas\n"
 

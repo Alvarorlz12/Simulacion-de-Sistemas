@@ -1,3 +1,0 @@
-./macros/macro_parte2_2.sh: line 44: ../bin/generador_continuo: No such file or directory
-./macros/macro_parte2_2.sh: line 46: ../bin/generador_continuo: No such file or directory
-./macros/macro_parte2_2.sh: line 48: ../bin/generador_continuo: No such file or directory

@@ -1,8 +1,12 @@
+#! /bin/bash
+# EJECUCION
+# ./macro_graficas_parte2_2.sh nombre_carpeta_de_datos
+
 # Obtener los parámetros
 source params_parte2.txt
 
 # Variables
-carpeta=ejecuciones/$1-generador_continuo
+carpeta=../ejecuciones/$1-generador_continuo
 errores="$carpeta/errores-$1.txt"
 
 # Comprobar que existe la carpeta
@@ -29,6 +33,8 @@ datos_composicion="$carpeta/resultados-$1_gen_cont_composicion.dat"
 img_inversion="$carpeta/img/inversion.png"
 img_rechazo="$carpeta/img/rechazo.png"
 img_composicion="$carpeta/img/composicion.png"
+
+echo -e "Generando gráficas de Generadores de Datos Continuos (Capítulo 2.2)...\n"
 
 gnuplot -e "reset; \
     n=10; \
@@ -124,3 +130,5 @@ gnuplot -e "set terminal jpeg; \
             plot '$tiempos_inversion_a' using 2:4 title 'Inversión' with lines, \
                  '$tiempos_rechazo_a' using 2:4 title 'Rechazo' with lines, \
                  '$tiempos_composicion_a' using 2:4 title 'Composición' with lines;" >> $errores 2>&1
+
+echo -e "Gráficas de Generadores de Datos Continuos generadas (Capítulo 2.2)\n"

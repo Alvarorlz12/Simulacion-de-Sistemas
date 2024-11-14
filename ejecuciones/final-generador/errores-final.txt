@@ -1,0 +1,6 @@
+./macros/macro_parte2_1.sh: line 43: ../bin/generador: No such file or directory
+./macros/macro_parte2_1.sh: line 45: ../bin/generador: No such file or directory
+./macros/macro_parte2_1.sh: line 47: ../bin/generador: No such file or directory
+./macros/macro_parte2_1.sh: line 59: ../bin/generador: No such file or directory
+./macros/macro_parte2_1.sh: line 61: ../bin/generador: No such file or directory
+./macros/macro_parte2_1.sh: line 63: ../bin/generador: No such file or directory

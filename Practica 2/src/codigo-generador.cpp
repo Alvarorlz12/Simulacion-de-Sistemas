@@ -30,14 +30,17 @@ double uniforme(){
 
 // Construcción de la tabla de búsqueda de tamaño n para la distribución de probabilidad de la 2 parte de la práctica 2
 Celda* construye_tabla(int n){
-    int i, max;
+    int i;
+    int64_t max_int64;
+    double max;
     Celda* temp;
     if ((temp = (Celda*) malloc(n*sizeof(Celda))) == NULL)
     {
         fputs("Error reservando memoria para generador\n",stderr);
         exit(1);
     }
-    max = n*(n+1)/2;
+    max_int64 = (int64_t)n*(n+1)/2;
+    max = (double)max_int64;
     temp[0].prob = 1.0/max;
     temp[0].indice = 1;
     for (i=1;i<n;i++) {
@@ -55,14 +58,17 @@ Celda* construye_tabla(int n){
  * @return Tabla de búsqueda
  */
 Celda* construye_tabla_reordenada(int n){
-    int i, max;
+    int i;
+    int64_t max_int64;
+    double max;
     Celda* temp;
     if ((temp = (Celda*) malloc(n*sizeof(Celda))) == NULL)
     {
         fputs("Error reservando memoria para generador\n",stderr);
         exit(1);
     }
-    max = n*(n+1)/2;
+    max_int64 = (int64_t)n*(n+1)/2;
+    max = (double)max_int64;
     temp[0].prob = (double)n/max;
     temp[0].indice = n;
     for (i=1;i<n;i++) {
@@ -185,6 +191,7 @@ int main(int argc, char* argv[]){
     Celda* tabla_busqueda;  // Tabla de búsqueda
     double u_fijo = -1; // Valor de u fijo para el peor caso
     bool peor_caso = false; // Modo peor caso
+    stringstream ss;    // Flujo para almacenar la salida
 
     // Formato: ./generador <tamano_tabla> <veces> [<tipo_generador> <medir_tiempo> <semilla>]
     // Tipo de generador:
@@ -242,7 +249,7 @@ int main(int argc, char* argv[]){
     if (medir_tiempo && peor_caso) {
         // Tabla de búsqueda creciente o decreciente y búsqueda secuencial
         if (tipo_generador == 0 || tipo_generador == 2)
-            u_fijo = (double)RAND_MAX/(double)(RAND_MAX+1.0);
+            u_fijo = 1.0 - 1.0e-10;
         // Tabla de búsqueda creciente y búsqueda binaria
         else if (tipo_generador == 1) {  
             u_fijo = 0.25;
@@ -261,13 +268,14 @@ int main(int argc, char* argv[]){
         for (int i = 0; i < veces; i++) {
             //Cuando se necesite generar un valor, hacer:
             valor = generar_valor(tabla_busqueda, tama);    // Generar un valor esta vez
-            cout << valor << endl;
+            ss << valor << endl;
         }
+        cout << ss.str();
     }
     else {
         if (peor_caso) {
             for (int i = 0; i < veces; i++) {
-                valor = generar_peor_caso(tabla_busqueda, tama, u_fijo); 
+                valor = generar_peor_caso(tabla_busqueda, tama, u_fijo);
             }    
         } else {
             for (int i = 0; i < veces; i++) {
@@ -286,6 +294,7 @@ int main(int argc, char* argv[]){
 
     // Mostrar tabla de búsqueda
     // mostrar_tabla(tabla_busqueda, tama);
+        
     free(tabla_busqueda);   // Liberar memoria de la tabla de búsqueda
     return(0);
    

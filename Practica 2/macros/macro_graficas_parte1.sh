@@ -6,7 +6,7 @@
 source params_parte1.txt
 
 # Variables
-carpeta=ejecuciones/$1-estampadora
+carpeta=../ejecuciones/$1-estampadora
 sabiendo_estado="$carpeta/sabiendo_estado"
 sin_saber_estado="$carpeta/sin_saber_estado"
 errores="$carpeta/errores-$1.txt"

@@ -1,12 +1,12 @@
 #! /bin/bash
 # EJECUCIÓN
-# ./macro_graficas_parte_2.sh nombre_carpeta_de_datos
+# ./macro_graficas_parte2_1.sh nombre_carpeta_de_datos
 
 # Obtener los parámetros
 source params_parte2.txt
 
 # Variables
-carpeta=ejecuciones/$1-generador
+carpeta=../ejecuciones/$1-generador
 errores="$carpeta/errores-$1.txt"
 
 # Comprobar que existe la carpeta
@@ -27,7 +27,7 @@ if [ ! -d "$carpeta/img" ]; then
 fi
 
 # Generación de gráficas
-echo -e "Generando gráficas...\n"
+echo -e "Generando gráficas de Generadores de Datos Discretos (Capítulo 2.1)...\n"
 img_tabla_crec_sec="$carpeta/img/tabla_crec_sec-$1.jpeg"
 img_tabla_crec_bin="$carpeta/img/tabla_crec_bin-$1.jpeg"
 img_tabla_decr_sec="$carpeta/img/tabla_decr_sec-$1.jpeg"
@@ -97,46 +97,6 @@ fi
 img_tiempo_valores="$carpeta/img/tiempo_valores-$1.jpeg"
 datos_tiempo_valores="$carpeta/resultados-$1_tiempo_valores.dat"
 
-# if [ -s "$datos_tiempo_valores" ]; then
-#     gnuplot -e "set terminal jpeg; \
-#                 set output '$img_tiempo_valores'; \
-#                 set title 'Tiempo de ejecución en función del número de valores'; \
-#                 set xlabel 'Tipos de generador'; \
-#                 set ylabel 'Tiempo (ms)'; \
-#                 set key off; \
-#                 set yrange [0:]; \
-#                 set style data histogram; \
-#                 set style fill solid 1.00 border -1; \
-#                 set boxwidth 0.9; \
-#                 set xtics ('T. Crec. | B. Sec.' 0, \
-#                            'T. Crec. | B. Bin.' 1, \
-#                            'T. Dec. | B. Sec.' 2) \
-#                            nomirror scale 0; \
-#                 plot '$datos_tiempo_valores' using 4 title 'Tiempo';" >> $errores 2>&1
-# else
-#     echo "El archivo $datos_tiempo_valores no existe, está vacío o no tiene suficientes datos."
-# fi
-
-# if [ -s "$datos_tiempo_valores" ]; then
-#     gnuplot -e "set terminal jpeg; \
-#                 set output '$img_tiempo_valores'; \
-#                 set title 'Tiempo de ejecución en función del número de valores'; \
-#                 set xlabel 'Tipos de generador'; \
-#                 set ylabel 'Tiempo (ms)'; \
-#                 set key outside right top; \
-#                 set style data histogram; \
-#                 set style histogram clustered gap 1; \
-#                 set style fill solid 1.00 border -1; \
-#                 set boxwidth 0.9; \
-#                 set xtics nomirror scale 0; \
-#                 set yrange [0:]; \
-#                 plot '$datos_tiempo_valores' using 4:xtic(1) title 'T. Crec. | B. Sec.' linecolor rgb '#1f77b4', \
-#                      '' using 4 title 'T. Crec. | B. Bin.' linecolor rgb '#ff7f0e', \
-#                      '' using 4 title 'T. Dec. | B. Sec.' linecolor rgb '#2ca02c';" >> $errores 2>&1
-# else
-#     echo "El archivo $datos_tiempo_valores no existe, está vacío o no tiene suficientes datos."
-# fi
-
 # Transformar el archivo de datos de tiempo de ejecución en función del número de valores
 # para que se pueda representar en una gráfica de barras. Se obtendrá la última columna
 # de cada fila del archivo de datos y se guardará en un archivo temporal.
@@ -181,6 +141,7 @@ if [ -s "$datos_tiempo_tabla_crec_sec" ] && [ -s "$datos_tiempo_tabla_crec_bin" 
                 set ylabel 'Tiempo (ms)'; \
                 set key outside right top; \
                 set style data linespoints; \
+                set xtics rotate by -45; \
                 plot '$datos_tiempo_tabla_crec_sec' using 2:4 title 'T. Crec. | B. Sec.' linecolor rgb '#1f77b4', \
                      '$datos_tiempo_tabla_crec_bin' using 2:4 title 'T. Crec. | B. Bin.' linecolor rgb '#ff7f0e', \
                      '$datos_tiempo_tabla_decr_sec' using 2:4 title 'T. Dec. | B. Sec.' linecolor rgb '#2ca02c';" >> $errores 2>&1
@@ -188,4 +149,4 @@ else
     echo "Uno o más archivos de datos de tiempo de ejecución no existen, están vacíos o no tienen suficientes datos."
 fi
 
-echo -e "Gráficas generadas\n"
+echo -e "Gráficas de Generadores de Datos Discretos generadas (Capítulo 2.1)\n"

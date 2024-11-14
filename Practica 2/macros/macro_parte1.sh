@@ -1,27 +1,27 @@
 #! /bin/bash
 # EJECUCION
-# ./macro_parte_1.sh nombre_carpeta_salida
+# ./macro_parte1.sh nombre_carpeta_salida
 
 # Obtener los parámetros
 source params_parte1.txt
 
 # Compilación
-SRC="./src/estampadora.cpp"
-BIN="./bin/estampadora"
+SRC="./../src/estampadora.cpp"
+BIN="./../bin/estampadora"
 g++ -O2 $SRC -o $BIN
 
 # Comprobar que existe la carpeta bin
-if [ ! -d "bin" ]; then
-    mkdir "bin"
+if [ ! -d "../bin" ]; then
+    mkdir "../bin"
 fi
 
 # Comprobar si existe la carpeta de ejecuciones
-if [ ! -d "ejecuciones" ]; then
-    mkdir "ejecuciones"
+if [ ! -d "../ejecuciones" ]; then
+    mkdir "../ejecuciones"
 fi
 
 # Variables
-carpeta=ejecuciones/$1-estampadora
+carpeta=../ejecuciones/$1-estampadora
 sabiendo_estado="$carpeta/sabiendo_estado"
 sin_saber_estado="$carpeta/sin_saber_estado"
 errores_se="$sabiendo_estado/errores-$1.txt"

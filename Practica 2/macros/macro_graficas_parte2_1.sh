@@ -107,7 +107,7 @@ if [ -s "$temp_datos_tiempo_valores" ]; then
     gnuplot -e "set terminal jpeg; \
                 set output '$img_tiempo_valor_fijo'; \
                 set title 'Tiempo de ejecución en función del número de valores'; \
-                set ylabel 'Tiempo (ms)'; \
+                set ylabel 'Tiempo (s)'; \
                 unset xlabel; \
                 set key outside right center; \
                 set style data histogram; \

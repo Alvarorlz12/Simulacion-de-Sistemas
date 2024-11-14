@@ -40,12 +40,12 @@ echo -e " PRÁCTICA 2. Capítulo 2. Generadores de datos (continuos)"
 # Generación de datos
 echo -e "Generando datos..."
 echo -e "\t Realizando comprobación empírica:"
-echo -e "\t - Generando $VAL_CONT con generador continuo por método de inversión"
-$BIN $VAL_CONT $A 0 0 -1 >> $carpeta/resultados-$1_gen_cont_inv.dat 2>> $errores
-echo -e "\t - Generando $VAL_CONT con generador continuo por método de rechazo"
-$BIN $VAL_CONT $A 1 0 -1 >> $carpeta/resultados-$1_gen_cont_rechazo.dat 2>> $errores
-echo -e "\t - Generando $VAL_CONT con generador continuo por composición"
-$BIN $VAL_CONT $A 2 0 -1 >> $carpeta/resultados-$1_gen_cont_composicion.dat 2>> $errores
+echo -e "\t - Generando $VAL_EMPIRICO con generador continuo por método de inversión"
+$BIN $VAL_EMPIRICO $A 0 0 -1 >> $carpeta/resultados-$1_gen_cont_inv.dat 2>> $errores
+echo -e "\t - Generando $VAL_EMPIRICO con generador continuo por método de rechazo"
+$BIN $VAL_EMPIRICO $A 1 0 -1 >> $carpeta/resultados-$1_gen_cont_rechazo.dat 2>> $errores
+echo -e "\t - Generando $VAL_EMPIRICO con generador continuo por composición"
+$BIN $VAL_EMPIRICO $A 2 0 -1 >> $carpeta/resultados-$1_gen_cont_composicion.dat 2>> $errores
 
 echo -e "\t Realizando comprobación de tiempos en función del número de valores:"
 tiempos_inversion="$carpeta/tiempos-$1_gen_cont_inv.dat"
@@ -66,11 +66,11 @@ tiempos_rechazo_a="$carpeta/tiempos-$1_gen_cont_rechazo_a.dat"
 tiempos_composicion_a="$carpeta/tiempos-$1_gen_cont_composicion_a.dat"
 for a in ${AS[@]}; do
     echo -e "\t - Generando $VAL_CONT valores con generador continuo por método de inversión con a=$a"
-    $BIN $VAL_CONT $a 0 1 $SEED >> $tiempos_inversion_a 2>> $errores
+    $BIN $VAL_CONT $a 0 1 -1 >> $tiempos_inversion_a 2>> $errores
     echo -e "\t - Generando $VAL_CONT valores con generador continuo por método de rechazo con a=$a"
-    $BIN $VAL_CONT $a 1 1 $SEED >> $tiempos_rechazo_a 2>> $errores
+    $BIN $VAL_CONT $a 1 1 -1 >> $tiempos_rechazo_a 2>> $errores
     echo -e "\t - Generando $VAL_CONT valores con generador continuo por composición con a=$a"
-    $BIN $VAL_CONT $a 2 1 $SEED >> $tiempos_composicion_a 2>> $errores
+    $BIN $VAL_CONT $a 2 1 -1 >> $tiempos_composicion_a 2>> $errores
 done
 echo -e "Datos generados"
 

@@ -89,8 +89,7 @@ int main(int argc, char *argv[]) {
     int modo; // Modo de generación
     int semilla; // Semilla para el generador de números aleatorios
     bool medir_tiempo; // Determina si se mide el tiempo de ejecución 
-    // Flujo de string para almacenar los valores generados
-    stringstream ss;
+    double valor;   // Valor generado
 
     // Comprobar los parámetros de entrada
     if (argc != 6) {
@@ -115,24 +114,54 @@ int main(int argc, char *argv[]) {
     auto start = chrono::high_resolution_clock::now();
 
     // Generar valores
-    if (modo == 0) {
-        for (int i = 0; i < valores; i++) {
-            double valor = generador_continuo_inversion();
-            ss << valor << endl;
+    //     Si se está midiendo el tiempo, no se muestra nada por pantalla
+    if (medir_tiempo) {
+        switch (modo) {
+        case 0:
+            for (int i = 0; i < valores; i++) {
+                valor = generador_continuo_inversion();
+            }
+            break;
+        case 1:
+            for (int i = 0; i < valores; i++) {
+                valor = generador_continuo_aceptacion_rechazo();
+            }
+            break;
+        case 2:
+            for (int i = 0; i < valores; i++) {
+                valor = generador_continuo_composicion();
+            }
+            break;
+        default:
+            cout << "Modo no válido" << endl;
+            exit(-1);
         }
-    } else if (modo == 1) {
-        for (int i = 0; i < valores; i++) {
-            double valor = generador_continuo_aceptacion_rechazo();
-            ss << valor << endl;
+    } 
+    //    Si no se está midiendo el tiempo, se muestran los valores por pantalla
+    else {
+        switch (modo) {
+        case 0:
+            for (int i = 0; i < valores; i++) {
+                double valor = generador_continuo_inversion();
+                cout << valor << endl;
+            }
+            break;
+        case 1:
+            for (int i = 0; i < valores; i++) {
+                double valor = generador_continuo_aceptacion_rechazo();
+                cout << valor << endl;
+            }
+            break;
+        case 2:
+            for (int i = 0; i < valores; i++) {
+                double valor = generador_continuo_composicion();
+                cout << valor << endl;
+            }
+            break;
+        default:
+            cout << "Modo no válido" << endl;
+            exit(-1);
         }
-    } else if (modo == 2) {
-        for (int i = 0; i < valores; i++) {
-            double valor = generador_continuo_composicion();
-            ss << valor << endl;
-        }
-    } else {
-        cout << "Modo no válido" << endl;
-        exit(-1);
     }
 
     auto end = chrono::high_resolution_clock::now();
@@ -140,9 +169,7 @@ int main(int argc, char *argv[]) {
 
     // Mostrar tiempo de ejecución
     if (medir_tiempo)
-        cout << modo << "\t" << a << "\t" << valores << "\t" << time << endl;
-    else
-        cout << ss.str();
+        cout << modo << "\t" << a << "\t" << valores << "\t" << setprecision(10) << time << endl;
 
     return 0;
 }

@@ -107,13 +107,17 @@ tiempos_composicion="$carpeta/tiempos-$1_gen_cont_composicion.dat"
 
 gnuplot -e "set terminal jpeg; \
             set output '$img_tiempo_valores'; \
-            set title 'Tiempo de ejecución en función del número de valores'; \
+            set title 'Tiempo de ejecución en función del número de valores' font 'Arial,16'; \
             set xlabel 'Número de valores'; \
-            set ylabel 'Tiempo (ms)'; \
-            set key inside right top; \
-            plot '$tiempos_inversion' using 3:4 title 'Inversión' with lines, \
-                 '$tiempos_rechazo' using 3:4 title 'Rechazo' with lines, \
-                 '$tiempos_composicion' using 3:4 title 'Composición' with lines;" >> $errores 2>&1
+            set ylabel 'Tiempo (s)'; \
+            set key inside right left; \
+            set style data lines; \
+            set style line 1 lc rgb '#1f77b4' lt 1 lw 2; \
+            set style line 2 lc rgb '#d62728' lt 1 lw 2; \
+            set style line 3 lc rgb '#2ca02c' lt 1 lw 2; \
+            plot '$tiempos_inversion' using 3:4 title 'Inversión' ls 1, \
+                 '$tiempos_rechazo' using 3:4 title 'Rechazo' ls 2, \
+                 '$tiempos_composicion' using 3:4 title 'Composición' ls 3;" >> $errores 2>&1
 
 echo -e "Generando gráfica de tiempos en función de a..."
 img_tiempo_a="$carpeta/img/tiempo_a-$1.jpeg"
@@ -123,12 +127,19 @@ tiempos_composicion_a="$carpeta/tiempos-$1_gen_cont_composicion_a.dat"
 
 gnuplot -e "set terminal jpeg; \
             set output '$img_tiempo_a'; \
-            set title 'Tiempo de ejecución en función de a'; \
+            set title 'Tiempo de ejecución en función de a' font 'Arial,16'; \
             set xlabel 'a'; \
-            set ylabel 'Tiempo (ms)'; \
+            set ylabel 'Tiempo (s)'; \
             set key inside right top; \
-            plot '$tiempos_inversion_a' using 2:4 title 'Inversión' with lines, \
-                 '$tiempos_rechazo_a' using 2:4 title 'Rechazo' with lines, \
-                 '$tiempos_composicion_a' using 2:4 title 'Composición' with lines;" >> $errores 2>&1
+            set xtics nomirror; \
+            set xrange [0:1]; \
+            set yrange [0:]; \
+            set style data lines; \
+            set style line 1 lc rgb '#1f77b4' lt 1 lw 2; \
+            set style line 2 lc rgb '#d62728' lt 1 lw 2; \
+            set style line 3 lc rgb '#2ca02c' lt 1 lw 2; \
+            plot '$tiempos_inversion_a' using 2:4 title 'Inversión' ls 1, \
+                 '$tiempos_rechazo_a' using 2:4 title 'Rechazo' ls 2, \
+                 '$tiempos_composicion_a' using 2:4 title 'Composición' ls 3;" >> $errores 2>&1
 
 echo -e "Gráficas de Generadores de Datos Continuos generadas (Capítulo 2.2)\n"

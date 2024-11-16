@@ -285,10 +285,10 @@ int main (int argc, char *argv[])
             mantenimiento(regla, j+1);
             // 2. Estampar
             estampar();
-            // 3. Calcular siguiente estado
-            estado_actual = siguiente_estado();
-            // 4. Actualizar frecuencia de estados
+            // 3. Actualizar frecuencia de estados
             frecuencia_estados[estado_actual]++;
+            // 4. Calcular siguiente estado
+            estado_actual = siguiente_estado();
         }
         double coste_simulacion = coste / max_estampaciones;
         double media_est_mantenimiento_simulacion = media_est_mantenimiento / num_mantenimientos;

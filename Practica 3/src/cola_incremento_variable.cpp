@@ -1,6 +1,6 @@
 // *****************************************************************************
 // *****************************************************************************
-// *** MODELO DE SIMULACIÓN DISCRETO CON INCREMENTO FIJO
+// *** MODELO DE SIMULACIÓN DISCRETO CON INCREMENTO VARIABLE
 // *****************************************************************************
 // *****************************************************************************
 
@@ -8,6 +8,8 @@
 #include <cmath>
 #include <cstdlib>
 #include <ctime>
+#include <chrono>
+#include <iomanip>
 
 using namespace std;
 
@@ -16,7 +18,7 @@ using namespace std;
 // *****************************************************************************
 
 const double infinito = 10e30;
-const int total_a_atender = 10000; 
+const int total_a_atender = 100000; 
 double tlleg = 0.2; 
 double tserv = 0.15;
 int atendidos = 0;
@@ -51,7 +53,7 @@ double generallegada(double tlleg) {
  */
 double generaservicio(double tserv) {
     double u = static_cast<double>(rand()) / (RAND_MAX + 1.0);
-    return -tlleg * log(1 - u);
+    return -tserv * log(1 - u);
 }
 
 /**
@@ -88,13 +90,16 @@ int main(int argc, char *argv[]) {
 
     // Obtenemos el número de simulaciones
     const int num_simulaciones = atoi(argv[1]);
-    tlleg=atof(argv[2]); 
+    tlleg=atof(argv[2]);
     tserv=atof(argv[3]);
 
     // Realizamos las simulaciones
     for (int i = 0; i < num_simulaciones; i++) {
         // Inicializamos las variables de estado
         inicializar();
+
+        // Tomar tiempo de inicio
+        auto start = chrono::high_resolution_clock::now();
 
         // Realizamos la simulación
         // Generamos llegada del primer cliente
@@ -139,9 +144,14 @@ int main(int argc, char *argv[]) {
             }
         }
 
+        // Tomar tiempo de fin
+        auto end = chrono::high_resolution_clock::now();
+        auto duration = chrono::duration_cast<chrono::milliseconds>(end - start).count()/1000.0;
+
         double porcent_ocio = ocio * 100 / reloj;
         double media_encola = acum_cola / reloj;
-        cout << i << "\t" << media_encola << "\t" << porcent_ocio << endl;
+        cout << i << "\t" << media_encola << "\t" << porcent_ocio  
+             << "\t" << setprecision(10) << duration << endl;
     }
 
 

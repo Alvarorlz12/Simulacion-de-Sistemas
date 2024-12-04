@@ -8,6 +8,8 @@
 #include <cmath>
 #include <cstdlib>
 #include <ctime>
+#include <chrono>
+#include <iomanip>
 
 using namespace std;
 
@@ -26,7 +28,7 @@ double tiempo_llegada;
 double tiempo_salida = infinito;
 double ocio = 0.0;
 double tultsuc = 0.0;
-const int total_a_atender = 10000; 
+const int total_a_atender = 100000; 
 double tlleg = 0.2; 
 double tserv = 0.15;
 
@@ -104,6 +106,9 @@ int main(int argc, char *argv[]) {
         // Inicializamos las variables de estado
         inicializar();
 
+        // Tomar el tiempo de inicio
+        auto start = chrono::high_resolution_clock::now();
+
         // Realizamos la simulación
         // Generamos llegada del primer cliente
         tiempo_llegada = reloj + generallegada(tlleg);
@@ -137,9 +142,14 @@ int main(int argc, char *argv[]) {
             reloj++;
         }
 
+        // Tomar el tiempo de fin
+        auto end = chrono::high_resolution_clock::now();
+        auto duration = chrono::duration_cast<chrono::milliseconds>(end - start).count()/1000.0;
+
         double porcent_ocio = ocio * 100 / reloj;
         double media_encola = acum_cola / reloj;
-        cout << i << "\t" << media_encola << "\t" << porcent_ocio << endl;
+        cout << i << "\t" << media_encola << "\t" << porcent_ocio << "\t"
+             << setprecision(10) << duration << endl;
     }
 
     return 0;

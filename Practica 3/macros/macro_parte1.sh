@@ -49,15 +49,22 @@ echo -e " PRÁCTICA 3. Capítulo 1. MSD con incrementos fijo y variable"
 # Simulación para la estimación del número medio de clientes en cola (Q) y 
 # del porcentaje de tiempo de ocio del servidor (PTO) en función del número
 # de clientes en el sistema (n) y de los tiempos de servicio y llegada.
+fichero_medias="$carpeta/medias.dat"
 echo -e "Realizando estimación de Q y PTO..."
 echo -e "\t - Generando datos para Q y PTO con incremento fijo"
 for inc in $(seq 0 $(($NUM_INC - 1))); do
     fichero_inc_fijo="$carpeta/inc_fijo_${NOMBRE_INC[inc]}.dat"
     $BIN_F $NUM_ITER ${INC_TLLEGADA[inc]} ${INC_TSERVICIO[inc]} > $fichero_inc_fijo 2>> $errores
+    media_col2=$(awk '{sum+=$2} END {print sum/NR}' $fichero_inc_fijo)
+    media_col3=$(awk '{sum+=$3} END {print sum/NR}' $fichero_inc_fijo)
+    echo -e "${NOMBRE_INC[inc]}\t$media_col2\t$media_col3" >> $fichero_medias
 done
 echo -e "\t - Generando datos para Q y PTO con incremento variable"
 fichero_inc_variable="$carpeta/inc_variable.dat"
-$BIN_V 1000000 720 540 > $fichero_inc_variable 2>> $errores
+$BIN_V $NUM_ITER 0.2 0.15 > $fichero_inc_variable 2>> $errores
+media_col2=$(awk '{sum+=$2} END {print sum/NR}' $fichero_inc_variable)
+media_col3=$(awk '{sum+=$3} END {print sum/NR}' $fichero_inc_variable)
+echo -e "variable\t$media_col2\t$media_col3" >> $fichero_medias
 echo -e "Estimación de Q y PTO finalizada."
 
 # Generación de gráficas

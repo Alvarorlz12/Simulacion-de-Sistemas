@@ -46,6 +46,7 @@ echo -e " PRÁCTICA 3. Capítulo 2. Atendiendo 2 colas"
 fichero_config1="$carpeta/config1.dat"
 fichero_config2="$carpeta/config2.dat"
 fichero_config3="$carpeta/config3.dat"
+fichero_config_pruebas="$carpeta/config_pruebas.dat"
 
 # Configuración 1
 eval $CONFIG1
@@ -62,6 +63,54 @@ eval $CONFIG3
 for i in $(seq 1 $INCREMENTO $MAXSIM); do
     $BIN $tlleg1 $tlleg2 $tserv1 $tserv2 $maxcola1 $maxcola2 $TDEC $TPARADA $i >> $fichero_config3 2>> $errores
 done
+# Configuración pruebas (explicita en el guión)
+eval $CONFIG_PRUEBAS
+for i in $(seq 1 $INCREMENTO $MAXSIM); do
+    $BIN $tlleg1 $tlleg2 $tserv1 $tserv2 $maxcola1 $maxcola2 $TDEC $TPARADA $i >> $fichero_config_pruebas 2>> $errores
+done
+
+# Comparación de reglas de decisión básicas
+fichero_reg_dec_config1="$carpeta/reglas_decision_config1.dat"
+fichero_reg_dec_config2="$carpeta/reglas_decision_config2.dat"
+fichero_reg_dec_config3="$carpeta/reglas_decision_config3.dat"
+fichero_reg_dec_config_pruebas="$carpeta/reglas_decision_config_pruebas.dat"
+eval $CONFIG1
+$BIN $tlleg1 $tlleg2 $tserv1 $tserv2 $maxcola1 $maxcola2 1 $TPARADA $NUM_SIM >> $fichero_reg_dec_config1 2>> $errores
+$BIN $tlleg1 $tlleg2 $tserv1 $tserv2 $maxcola1 $maxcola2 2 $TPARADA $NUM_SIM >> $fichero_reg_dec_config1 2>> $errores
+$BIN $tlleg1 $tlleg2 $tserv1 $tserv2 $maxcola1 $maxcola2 3 $TPARADA $NUM_SIM >> $fichero_reg_dec_config1 2>> $errores
+$BIN $tlleg1 $tlleg2 $tserv1 $tserv2 $maxcola1 $maxcola2 4 $TPARADA $NUM_SIM >> $fichero_reg_dec_config1 2>> $errores
+$BIN $tlleg1 $tlleg2 $tserv1 $tserv2 $maxcola1 $maxcola2 5 $TPARADA $NUM_SIM >> $fichero_reg_dec_config1 2>> $errores
+$BIN $tlleg1 $tlleg2 $tserv1 $tserv2 $maxcola1 $maxcola2 6 $TPARADA $NUM_SIM >> $fichero_reg_dec_config1 2>> $errores
+$BIN $tlleg1 $tlleg2 $tserv1 $tserv2 $maxcola1 $maxcola2 7 $TPARADA $NUM_SIM >> $fichero_reg_dec_config1 2>> $errores
+$BIN $tlleg1 $tlleg2 $tserv1 $tserv2 $maxcola1 $maxcola2 8 $TPARADA $NUM_SIM >> $fichero_reg_dec_config1 2>> $errores
+eval $CONFIG2
+$BIN $tlleg1 $tlleg2 $tserv1 $tserv2 $maxcola1 $maxcola2 1 $TPARADA $NUM_SIM >> $fichero_reg_dec_config2 2>> $errores
+$BIN $tlleg1 $tlleg2 $tserv1 $tserv2 $maxcola1 $maxcola2 2 $TPARADA $NUM_SIM >> $fichero_reg_dec_config2 2>> $errores
+$BIN $tlleg1 $tlleg2 $tserv1 $tserv2 $maxcola1 $maxcola2 3 $TPARADA $NUM_SIM >> $fichero_reg_dec_config2 2>> $errores
+$BIN $tlleg1 $tlleg2 $tserv1 $tserv2 $maxcola1 $maxcola2 4 $TPARADA $NUM_SIM >> $fichero_reg_dec_config2 2>> $errores
+$BIN $tlleg1 $tlleg2 $tserv1 $tserv2 $maxcola1 $maxcola2 5 $TPARADA $NUM_SIM >> $fichero_reg_dec_config2 2>> $errores
+$BIN $tlleg1 $tlleg2 $tserv1 $tserv2 $maxcola1 $maxcola2 6 $TPARADA $NUM_SIM >> $fichero_reg_dec_config2 2>> $errores
+$BIN $tlleg1 $tlleg2 $tserv1 $tserv2 $maxcola1 $maxcola2 7 $TPARADA $NUM_SIM >> $fichero_reg_dec_config2 2>> $errores
+$BIN $tlleg1 $tlleg2 $tserv1 $tserv2 $maxcola1 $maxcola2 8 $TPARADA $NUM_SIM >> $fichero_reg_dec_config2 2>> $errores
+eval $CONFIG3
+$BIN $tlleg1 $tlleg2 $tserv1 $tserv2 $maxcola1 $maxcola2 1 $TPARADA $NUM_SIM >> $fichero_reg_dec_config3 2>> $errores
+$BIN $tlleg1 $tlleg2 $tserv1 $tserv2 $maxcola1 $maxcola2 2 $TPARADA $NUM_SIM >> $fichero_reg_dec_config3 2>> $errores
+$BIN $tlleg1 $tlleg2 $tserv1 $tserv2 $maxcola1 $maxcola2 3 $TPARADA $NUM_SIM >> $fichero_reg_dec_config3 2>> $errores
+$BIN $tlleg1 $tlleg2 $tserv1 $tserv2 $maxcola1 $maxcola2 4 $TPARADA $NUM_SIM >> $fichero_reg_dec_config3 2>> $errores
+$BIN $tlleg1 $tlleg2 $tserv1 $tserv2 $maxcola1 $maxcola2 5 $TPARADA $NUM_SIM >> $fichero_reg_dec_config3 2>> $errores
+$BIN $tlleg1 $tlleg2 $tserv1 $tserv2 $maxcola1 $maxcola2 6 $TPARADA $NUM_SIM >> $fichero_reg_dec_config3 2>> $errores
+$BIN $tlleg1 $tlleg2 $tserv1 $tserv2 $maxcola1 $maxcola2 7 $TPARADA $NUM_SIM >> $fichero_reg_dec_config3 2>> $errores
+$BIN $tlleg1 $tlleg2 $tserv1 $tserv2 $maxcola1 $maxcola2 8 $TPARADA $NUM_SIM >> $fichero_reg_dec_config3 2>> $errores
+eval $CONFIG_PRUEBAS
+$BIN $tlleg1 $tlleg2 $tserv1 $tserv2 $maxcola1 $maxcola2 1 $TPARADA $NUM_SIM >> $fichero_reg_dec_config_pruebas 2>> $errores
+$BIN $tlleg1 $tlleg2 $tserv1 $tserv2 $maxcola1 $maxcola2 2 $TPARADA $NUM_SIM >> $fichero_reg_dec_config_pruebas 2>> $errores
+$BIN $tlleg1 $tlleg2 $tserv1 $tserv2 $maxcola1 $maxcola2 3 $TPARADA $NUM_SIM >> $fichero_reg_dec_config_pruebas 2>> $errores
+$BIN $tlleg1 $tlleg2 $tserv1 $tserv2 $maxcola1 $maxcola2 4 $TPARADA $NUM_SIM >> $fichero_reg_dec_config_pruebas 2>> $errores
+$BIN $tlleg1 $tlleg2 $tserv1 $tserv2 $maxcola1 $maxcola2 5 $TPARADA $NUM_SIM >> $fichero_reg_dec_config_pruebas 2>> $errores
+$BIN $tlleg1 $tlleg2 $tserv1 $tserv2 $maxcola1 $maxcola2 6 $TPARADA $NUM_SIM >> $fichero_reg_dec_config_pruebas 2>> $errores
+$BIN $tlleg1 $tlleg2 $tserv1 $tserv2 $maxcola1 $maxcola2 7 $TPARADA $NUM_SIM >> $fichero_reg_dec_config_pruebas 2>> $errores
+$BIN $tlleg1 $tlleg2 $tserv1 $tserv2 $maxcola1 $maxcola2 8 $TPARADA $NUM_SIM >> $fichero_reg_dec_config_pruebas 2>> $errores
+
 
 # Generar gráficas
 ./macro_graficas_parte2.sh $1

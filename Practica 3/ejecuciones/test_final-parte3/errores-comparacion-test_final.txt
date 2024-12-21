@@ -1,0 +1,70 @@
+Etapa: 1
+Primera etapa
+terminate called after throwing an instance of 'std::out_of_range'
+  what():  basic_string::substr: __pos (which is 18446744073709551615) > this->size() (which is 10)
+Etapa: 2
+terminate called after throwing an instance of 'std::invalid_argument'
+  what():  stod
+Etapa: 1
+Primera etapa
+terminate called after throwing an instance of 'std::out_of_range'
+  what():  basic_string::substr: __pos (which is 18446744073709551615) > this->size() (which is 10)
+Etapa: 2
+terminate called after throwing an instance of 'std::invalid_argument'
+  what():  stod
+Etapa: 1
+Primera etapa
+terminate called after throwing an instance of 'std::out_of_range'
+  what():  basic_string::substr: __pos (which is 18446744073709551615) > this->size() (which is 10)
+Etapa: 2
+terminate called after throwing an instance of 'std::invalid_argument'
+  what():  stod
+Etapa: 1
+Primera etapa
+terminate called after throwing an instance of 'std::out_of_range'
+  what():  basic_string::substr: __pos (which is 18446744073709551615) > this->size() (which is 9)
+Etapa: 2
+terminate called after throwing an instance of 'std::invalid_argument'
+  what():  stod
+Etapa: 1
+Primera etapa
+terminate called after throwing an instance of 'std::out_of_range'
+  what():  basic_string::substr: __pos (which is 18446744073709551615) > this->size() (which is 9)
+Etapa: 2
+terminate called after throwing an instance of 'std::invalid_argument'
+  what():  stod
+Etapa: 1
+Primera etapa
+terminate called after throwing an instance of 'std::out_of_range'
+  what():  basic_string::substr: __pos (which is 18446744073709551615) > this->size() (which is 9)
+Etapa: 2
+terminate called after throwing an instance of 'std::invalid_argument'
+  what():  stod
+Etapa: 1
+Primera etapa
+terminate called after throwing an instance of 'std::out_of_range'
+  what():  basic_string::substr: __pos (which is 18446744073709551615) > this->size() (which is 9)
+Etapa: 2
+terminate called after throwing an instance of 'std::invalid_argument'
+  what():  stod
+Etapa: 1
+Primera etapa
+terminate called after throwing an instance of 'std::out_of_range'
+  what():  basic_string::substr: __pos (which is 18446744073709551615) > this->size() (which is 9)
+Etapa: 2
+terminate called after throwing an instance of 'std::invalid_argument'
+  what():  stod
+Etapa: 1
+Primera etapa
+terminate called after throwing an instance of 'std::out_of_range'
+  what():  basic_string::substr: __pos (which is 18446744073709551615) > this->size() (which is 9)
+Etapa: 2
+terminate called after throwing an instance of 'std::invalid_argument'
+  what():  stod
+Etapa: 1
+Primera etapa
+terminate called after throwing an instance of 'std::out_of_range'
+  what():  basic_string::substr: __pos (which is 18446744073709551615) > this->size() (which is 9)
+Etapa: 2
+terminate called after throwing an instance of 'std::invalid_argument'
+  what():  stod

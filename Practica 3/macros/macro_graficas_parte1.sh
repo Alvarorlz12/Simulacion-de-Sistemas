@@ -92,7 +92,7 @@ gnuplot -e "reset; \
     set output '$carpeta/img/estimacion_tiempo_fijo_vs_variable.png'; \
     set title 'Estimación de Tiempo de Ejecución con 100000 clientes' font 'arial,16' enhanced; \
     set xlabel 'Iteración'; \
-    set ylabel 'Tiempo de Ejecución'; \
+    set ylabel 'Tiempo de Ejecución (s)'; \
     set ytics nomirror; \
     set xtics nomirror; \
     set logscale y; \

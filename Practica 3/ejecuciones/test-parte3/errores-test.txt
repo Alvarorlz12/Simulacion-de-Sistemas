@@ -1,0 +1,3 @@
+line 0: warning: Cannot find or open file "../ejecuciones/test-parte3/comparacion_c_d.dat"
+line 0: No data in plot
+

@@ -1,0 +1,5 @@
+
+Formato Argumentos -> <tlleg1 tlleg2 tserv1 tserv2 maxcola1 maxcola2 tipodecision tparada numero_simulaciones>
+
+tipodecision: 1 cola mas larga; 2 cola al azar
+

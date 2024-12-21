@@ -1,0 +1,12 @@
+params: 10
+argv[0]: ./../bin/atendiendo2colas_comp_sim
+argv[1]: 2.0
+argv[2]: 1.3
+argv[3]: 0.7
+argv[4]: 0.7
+argv[5]: 10
+argv[6]: 20
+argv[7]: 2
+argv[8]: 480
+argv[9]: 20
+2	20	0.411

@@ -40,6 +40,10 @@ float acum_porcrechazados, acum_porcrechazados1, acum_porcrechazados2; //porcent
 float acum2_rechazados, acum2_rechazados1, acum2_rechazados2;
 float acum2_porcrechazados, acum2_porcrechazados1, acum2_porcrechazados2;
 
+const int x1 = 5;
+const int x2 = 5;
+const float prob = 0.3;
+
 
 bool compare(const suc &s1, const suc &s2)
 { 
@@ -133,6 +137,106 @@ int regla_decision_al_azar(){
     return elige;
 }
 
+/**
+ * @brief Relga de decision: Tiempo de espera mayor
+ * Se escoge la cola en la que el cliente lleva más tiempo esperando
+ */
+int regla_decision_tiempo_espera_mayor()
+{
+    float t_lleg_1, t_lleg_2;
+    list<suc>::iterator it=lsuc.begin();
+
+    while(it->suceso!=suceso_llegada1)
+        it++;
+
+    t_lleg_1=reloj-it->tiempo;
+
+    it=lsuc.begin();
+
+     while(it->suceso!=suceso_llegada2)
+        it++;
+
+    t_lleg_2=reloj-it->tiempo;
+
+    if(t_lleg_2<t_lleg_1)
+        return 1;
+    else
+        return 2;
+}
+
+/**
+ * @brief Regla de decisión: Elegir la cola más corta
+ */
+int regla_decision_cola_menor(){
+    float prob = 0.5;
+    if (encola1 < encola2) elige = 1;
+    else if (encola2 < encola1) elige = 2;
+    else 
+    {
+        float u = uniforme();
+        if (u < prob) elige = 1;
+        else elige = 2;
+    }
+    return elige;
+}
+
+/**
+ * @brief Regla de decisión: Alternar entre colas
+ */
+int regla_decision_alternar(){
+    if (elige == 1) elige = 2;
+    else elige = 1;
+    return elige;
+}
+
+/**
+ * @brief Regla de decisión: Seguir con la misma cola x1 y x2 veces seguidas
+ */
+int regla_decision_seguir(){
+    static int cont1 = 0;
+    static int cont2 = 0;
+
+    if (cont1 < x1) {
+        elige = 1;
+        cont1++;
+    }
+    else if (cont2 < x2) {
+        elige = 2;
+        cont2++;
+    }
+
+    if (cont1 == x1) cont2 = 0;
+    if (cont2 == x2) cont1 = 0;
+
+    return elige;
+}
+
+/**
+ * @brief Regla de decisión: Elegir la cola que esté más llena en función de la capacidad
+ * máxima de cada cola
+ */
+int regla_decision_llena(){
+    float prob = 0.5;
+    if ((float)encola1/maxcola1 < (float)encola2/maxcola2) elige = 1;
+    else if ((float)encola2/maxcola2 < (float)encola1/maxcola1) elige = 2;
+    else {
+        float u = uniforme();
+        if (u < prob) elige = 1;
+        else elige = 2;
+    }
+    return elige;
+}
+
+/**
+ * @brief Regla de decisión: Elegir la cola al azar con probabilidad distinta
+ */
+int regla_decision_probabilidad(){
+    float prob = (float)(tlleg1)/(tlleg1+tlleg2);
+    float u = uniforme();
+    if (u < prob) elige = 1;
+    else elige = 2;
+    return elige;
+}
 
 int regla_decision(int tipo){
   
@@ -140,6 +244,12 @@ int regla_decision(int tipo){
         {
             case 1: elige = regla_decision_larga(); break;
             case 2: elige = regla_decision_al_azar(); break;
+            case 3: elige = regla_decision_tiempo_espera_mayor(); break;
+            case 4: elige = regla_decision_cola_menor(); break;
+            case 5: elige = regla_decision_alternar(); break;
+            case 6: elige = regla_decision_seguir(); break;
+            case 7: elige = regla_decision_llena(); break;
+            case 8: elige = regla_decision_probabilidad(); break;
         }
     return elige;
 }
@@ -307,8 +417,8 @@ int main(int argc, char *argv[])
     sscanf(argv[8],"%f",&tparada);
     sscanf(argv[9],"%d",&simulaciones);
     
-    srand(time(NULL));
-    //srand(123456);
+    // srand(time(NULL));
+    srand(123456);
     for (i=0; i<simulaciones; i++)
     {
         inicializacion();

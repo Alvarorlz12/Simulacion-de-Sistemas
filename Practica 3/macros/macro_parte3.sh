@@ -79,5 +79,8 @@ done
 # Generar estadísticas
 ./macro_estadisticas_parte3.sh $1
 
+# Generar comparaciones
+./macro_comparacion_parte3.sh $1
+
 # Generar gráficas
 ./macro_graficas_parte3.sh $1

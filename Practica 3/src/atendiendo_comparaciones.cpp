@@ -217,8 +217,8 @@ int regla_decision_seguir(){
  */
 int regla_decision_llena(){
     float prob = 0.5;
-    if ((float)encola1/maxcola1 < (float)encola2/maxcola2) elige = 1;
-    else if ((float)encola2/maxcola2 < (float)encola1/maxcola1) elige = 2;
+    if (maxcola1-encola1 < maxcola2-encola2) elige = 1;
+    else if (maxcola2-encola2 < maxcola1-encola1) elige = 2;
     else {
         float u = uniforme();
         if (u < prob) elige = 1;
@@ -394,7 +394,10 @@ void informe()
 
 void informe_analisis()
 {
-    printf("%.3f\t%.3f\n", acum_rechazados/simulaciones, sqrt(fabs(acum2_rechazados - acum_rechazados*acum_rechazados/simulaciones)/(simulaciones-1)));
+    // Con número medio de rechazados
+    // printf("%.3f\t%.3f\n", acum_rechazados/simulaciones, sqrt(fabs(acum2_rechazados - acum_rechazados*acum_rechazados/simulaciones)/(simulaciones-1)));
+    // Con porcentaje medio de rechazados
+    printf("%.3f\t%.3f\n", acum_porcrechazados/simulaciones, sqrt(fabs(acum2_porcrechazados - acum_porcrechazados*acum_porcrechazados/simulaciones)/(simulaciones-1)));
 }
 
 int main(int argc, char *argv[])

@@ -68,6 +68,7 @@ void cargar_resultados(string fichero, int k)
     }
     getline(f1, linea); // línea con d*
     D_ast = stod(linea);
+    // D_ast = 1.0;
 
     f1.close();
 }
@@ -88,7 +89,7 @@ void calcular_d_ast()
     // sort(medias.begin(), medias.end());
 
     // D_ast = (medias[0] - medias[1])/2;
-    D_ast = 1.0;
+    D_ast = 0.1;
 }
 
 void calcular_num_simulaciones()
@@ -150,32 +151,6 @@ void primera_etapa(string fichero)
     sistemas.push_back(s);  // Añadimos el sistema al vector
 
     f1.close();
-    // ifstream f1(fichero);
-
-    // string linea;
-    // vector<double> pct;
-
-    // // Obtenemos los porcentajes de cada iteración
-    // while (getline(f1, linea))
-    // {
-    //     pct.push_back(stod(linea.substr(linea.find_last_of("\t"), linea.size())));
-    // }
-
-    // // Calculamos la media y la varianza
-    // double media = mean(pct);
-    // double varianza = variance(pct, media);
-
-    // k++;    // Incrementamos el número de sistemas
-
-    // // Creamos un sistema con los datos obtenidos
-    // sistema s;
-    // s.id = k;
-    // s.media_primera_etapa = media;
-    // s.varianza_primera_etapa = varianza;
-
-    // sistemas.push_back(s);  // Añadimos el sistema al vector
-
-    // f1.close();
 }
 
 // /////////////////////////////////////////////////////////////////////////////
@@ -193,45 +168,23 @@ void segunda_etapa(string fichero, int idx)
     stringstream ss(linea);
 
     // Obtenemos la media y la varianza
-    ss >> media >> varianza;
-    varianza = pow(varianza, 2); // El valor que se obtiene es la desviación típica
+    ss >> media;
 
     // Actualizamos el sistema con los datos obtenidos
     sistemas[idx].media_segunda_etapa = media;
-    sistemas[idx].varianza_primera_etapa = varianza;
 
     f1.close();
-    // ifstream f1(fichero);
-
-    // string linea;
-    // vector<double> pct;
-
-    // // Obtenemos los porcentajes de cada iteración restante
-    // for (int i = 0; i < N0; i++) {
-    //     getline(f1, linea);
-    // }
-    // while (getline(f1, linea))
-    // {
-    //     pct.push_back(stod(linea.substr(linea.find_last_of("\t"), linea.size())));
-    // }
-
-    // // Calculamos la media y la varianza
-    // double media = mean(pct);
-    // double varianza = variance(pct, media);
-
-    // // Actualizamos el sistema con los datos obtenidos
-    // sistemas[idx].media_segunda_etapa = media;
-    // sistemas[idx].varianza_primera_etapa = varianza;
-
-    // f1.close();
 }
 
 
-pair<double,double> calcular_pesos(sistema s)
+pair<float,float> calcular_pesos(sistema s)
 {
-    double termino_corchetes=(1-((s.num_simulaciones_totales-N0)*pow(D_ast,2))/(pow(h,2)*s.varianza_primera_etapa));
-    s.w1=(N0/s.num_simulaciones_totales)*(1+pow(1-(s.num_simulaciones_totales/N0)*termino_corchetes, 1/2));
-    s.w2=1-s.w1;
+    float n0 = float(N0);
+    float nsim = float(s.num_simulaciones_totales);
+
+    float termino_corchetes=(1.0f-((float)(nsim-n0)*pow(D_ast,2))/(pow(h,2)*s.varianza_primera_etapa));
+    s.w1=((float)n0/nsim)*(1.0f+sqrt(1.0f-(float)(nsim/n0)*termino_corchetes));
+    s.w2=1.0f-s.w1;
     return make_pair(s.w1,s.w2);
 }
 
@@ -276,39 +229,6 @@ void mostrar_segunda_etapa(string fichero)
 
     f1.close();
 }
-// void mostrar_segunda_etapa(string fichero)
-// {
-//     ofstream f1(fichero);
-//     f1 << setprecision(3) << fixed;
-//     f1 << setw(6) << " i " << setw(16) << " Media etapa 1 " 
-//        << setw(16) << " Varianza etapa 1 " << setw(9) << "  Ni  "
-//        << setw(16) << " Media etapa 2 " << setw(7) << "  W1  " << setw(7) << "  W2  " 
-//        << setw(18) << " M. Muestral Pond " << endl;
-//     for (int i = 0; i < sistemas.size(); i++)
-//     {
-//         f1 << setw(6) << sistemas[i].id << setw(16) << sistemas[i].media_primera_etapa 
-//            << setw(16) << sistemas[i].varianza_primera_etapa << setw(9) << sistemas[i].num_simulaciones_totales 
-//            << setw(16) << sistemas[i].media_segunda_etapa << setw(7) << sistemas[i].w1 << setw(7) << sistemas[i].w2 
-//            << setw(18) << sistemas[i].media_ponderada << endl;
-//     }
-
-//     // Elegimos el sistema con la media ponderada más pequeña
-//     double min = sistemas[0].media_ponderada;
-//     int id = 0;
-//     for (int i = 1; i < sistemas.size(); i++)
-//     {
-//         if (sistemas[i].media_ponderada < min)
-//         {
-//             min = sistemas[i].media_ponderada;
-//             id = i;
-//         }
-//     }
-
-//     f1 << "--------------------------------------------------------------------------------" << endl;
-//     f1 << "El sistema con la menor media muestral ponderada es " << sistemas[id].id << endl;
-
-//     f1.close();
-// }
 
 void calculo_segunda_parte()
 {
@@ -346,12 +266,16 @@ int main(int argc, char *argv[])
             primera_etapa(argv[i]);
         }
 
+        // Calculamos d* (se fija a 1.0)
         calcular_d_ast();
 
+        // Calculamos el número de simulaciones totales
         calcular_num_simulaciones();
 
+        // Guardamos el número de simulaciones
         almacenar_n(fichero_n);
 
+        // Guardamos los resultados de la primera etapa
         mostrar_primera_etapa(fichero_resultados);
     } else {
         // Obtenemos los resultados anteriores
@@ -364,9 +288,10 @@ int main(int argc, char *argv[])
         }
 
         // 2º Pesos para la segunda etapa de cada uno de los sistemas
-        //3º calculo de las medias ponderadas (primera/segunda etapa)
+        // 3º calculo de las medias ponderadas (primera/segunda etapa)
         calculo_segunda_parte();
-        //4º Elegir menor media muestral ponderada
+
+        // 4º Elegir menor media muestral ponderada
         mostrar_segunda_etapa(fichero_resultados);
     }    
 

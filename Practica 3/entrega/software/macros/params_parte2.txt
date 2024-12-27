@@ -1,0 +1,9 @@
+MAXSIM=1000
+INCREMENTO=10
+TPARADA=100
+TDEC=1
+CONFIG1="tlleg1=1.1 tlleg2=1.9 tserv1=0.5 tserv2=0.8 maxcola1=20 maxcola2=10"
+CONFIG2="tlleg1=1.5 tlleg2=1.5 tserv1=0.9 tserv2=0.9 maxcola1=30 maxcola2=30"
+CONFIG3="tlleg1=1.3 tlleg2=1.2 tserv1=0.3 tserv2=0.7 maxcola1=10 maxcola2=15"
+CONFIG_PRUEBAS="tlleg1=2.0 tlleg2=1.3 tserv1=0.7 tserv2=0.7 maxcola1=10 maxcola2=20"
+NUM_SIM=300

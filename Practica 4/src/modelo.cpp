@@ -20,8 +20,8 @@ void fijar_parametros() {
     a11 = 5; a12 = 0.05; a21 = 0.0004; a22 = 0.2;
     tinic = 0.0; tfin = 100.0; dt = 0.1;
     // estado[0] = 450; estado[1] = 90;
-    // estado[0] = a22/a21; estado[1] = a11/a12;
-    estado[0] = 100; estado[1] = 20;
+    // estado[0] = 100; estado[1] = 20;
+    estado[0] = a22/a21; estado[1] = a11/a12;
 }
 
 void derivacion(const double est[], double f[], double tt) {
@@ -33,11 +33,6 @@ void one_step_euler(const double inp[], double out[], double tt, double hh) {
     derivacion(inp, f, tt);
     for (int i = 0; i < numeq; i++) {
         out[i] = inp[i] + (hh * f[i]);
-        // // AÑADIDO IMPORTANTE: Restricción de positividad
-        // if (out[i] < 0.0) {
-        //     // out[i] = 0.0;
-        //     cout << "negativo" << endl;
-        // }
     }
 }
 
@@ -52,23 +47,9 @@ void one_step_runge_kutta(const double inp[], double out[], double tt, double hh
         else incr = hh;
         for (int i = 0; i < numeq; i++) out[i] = inp[i] + k[i][j] * incr;
         time = tt + incr;
-
-        // // AÑADIDO IMPORTANTE: Restricción de positividad
-        // for (int i = 0; i < numeq; i++) {
-        //     if (out[i] < 0.0) {
-        //         out[i] = 0.0;
-        //     }
-        // }
     }
     for (int i = 0; i < numeq; i++)
         out[i] = inp[i] + hh / 6 * (k[i][0] + 2 * k[i][1] + 2 * k[i][2] + k[i][3]);
-
-    // // AÑADIDO IMPORTANTE: Restricción de positividad (también al final)
-    // for (int i = 0; i < numeq; i++) {
-    //     if (out[i] < 0.0) {
-    //         out[i] = 0.0;
-    //     }
-    // }
 }
 
 void salida() {
@@ -77,13 +58,13 @@ void salida() {
     cout << fixed << setprecision(4) << t << "\t" << estado[0] << "\t" << estado[1] << endl;
 }
 
-void integracion() {
+void integracion(int metodo) {
     do {
         salida();
         for (int i = 0; i < numeq; i++) oldestado[i] = estado[i];
-        // if (metodo == 0) one_step_runge_kutta(oldestado, estado, t, dt); // o one_step_euler
-        // else one_step_euler(oldestado, estado, t, dt); // o one_step_euler
-        one_step_runge_kutta(oldestado, estado, t, dt); // o one_step_euler
+        if (metodo == 0) one_step_runge_kutta(oldestado, estado, t, dt); // o one_step_euler
+        else one_step_euler(oldestado, estado, t, dt); // o one_step_euler
+        // one_step_runge_kutta(oldestado, estado, t, dt); // o one_step_euler
         // one_step_euler(oldestado, estado, t, dt); // o one_step_euler
         t += dt;
     } while (t < tfin);
@@ -91,10 +72,27 @@ void integracion() {
 
 int main(int argc, char *argv[]) {
 
-    // int metodo = atoi(argv[1]);
-    fijar_parametros();
+    // Comprobar el número de argumentos
+    if (argc != 11) {
+        cout << "Uso: " << argv[0] << " <metodo> <a11> <a12> <a21> <a22> <tinic> <tfin> <dt> <x0> <y0>" << endl;
+        cout << "Donde <metodo> es 0 para Runge-Kutta y 1 para Euler" << endl;
+        return 1;
+    }
+    // Parámetros
+    int metodo = atoi(argv[1]);
+    a11 = atof(argv[2]); 
+    a12 = atof(argv[3]); 
+    a21 = atof(argv[4]); 
+    a22 = atof(argv[5]);
+    tinic = atof(argv[6]);
+    tfin = atof(argv[7]);
+    dt = atof(argv[8]);
+    estado[0] = atof(argv[9]);
+    estado[1] = atof(argv[10]);
     t = tinic;
-    // no es necesario t porque se hace con tinic
-    integracion();
+
+    // fijar_parametros();
+    
+    integracion(metodo);
     return 0;
 }

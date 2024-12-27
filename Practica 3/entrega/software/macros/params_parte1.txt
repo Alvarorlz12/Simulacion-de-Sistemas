@@ -1,0 +1,5 @@
+NUM_ITER=100
+NUM_INC=7
+NOMBRE_INC=("horas" "media-hora" "cuarto-hora" "decima-hora" "minuto" "segundo" "decisegundo")
+INC_TLLEGADA=(0.2 0.4 0.8 2 12 720 7200)
+INC_TSERVICIO=(0.15 0.3 0.6 1.5 9 540 5400)

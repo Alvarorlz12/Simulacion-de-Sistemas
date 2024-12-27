@@ -57,9 +57,21 @@ fic_alejados_3="$carpeta/alejados_3.dat"
 eval $ALEJADOS_3
 $BIN $RK $a11 $a12 $a21 $a22 $tinic $tfin $dt $x0 $y0 > $fic_alejados_3 2>> $errores
 
+# Punto 4. Cambio de parámetros aij
+echo -e "Punto 4. Escenarios. Cambio de parámetros aij"
+fic_escenario_1="$carpeta/escenario_1.dat"
+eval $ESCENARIO_1
+$BIN $RK $a11 $a12 $a21 $a22 $tinic $tfin $dt $x0 $y0 > $fic_escenario_1 2>> $errores
+fic_escenario_2="$carpeta/escenario_2.dat"
+eval $ESCENARIO_2
+$BIN $RK $a11 $a12 $a21 $a22 $tinic $tfin $dt $x0 $y0 > $fic_escenario_2 2>> $errores
+fic_escenario_3="$carpeta/escenario_3.dat"
+eval $ESCENARIO_3
+$BIN $RK $a11 $a12 $a21 $a22 $tinic $tfin $dt $x0 $y0 > $fic_escenario_3 2>> $errores
+
 # Punto 5. Comparación de métodos
 echo -e "Punto 5. Comparación de métodos"
-eval $COMPARACION
+eval $ESCENARIO_2
 h=0.1
 fic_euler="$carpeta/comp_euler_$h.dat"
 $BIN $EULER $a11 $a12 $a21 $a22 $tinic $tfin $h $x0 $y0 > $fic_euler 2>> $errores

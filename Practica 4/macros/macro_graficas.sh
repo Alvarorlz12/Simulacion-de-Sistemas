@@ -174,3 +174,178 @@ gnuplot -e "\
          '$datos_alejados_1' using 2:3 title 'x=$x_a1, y=$y_a1' with lines linestyle 2,
          '$datos_alejados_2' using 2:3 title 'x=$x_a2, y=$y_a2' with lines linestyle 3,
          '$datos_alejados_3' using 2:3 title 'x=$x_a3, y=$y_a3' with lines linestyle 4;"
+
+# Escenario 1
+eval $ESCENARIO_1
+x_e1=$x0
+y_e1=$y0
+datos_escenario_1="$carpeta/escenario_1.dat"
+img_tiempo_escenario_1="$carpeta/img/tiempo_escenario_1.png"
+img_versus_escenario_1="$carpeta/img/versus_escenario_1.png"
+
+echo -e "Generando gráficas escenario 1..."
+
+gnuplot -e "\
+    set terminal png; \
+    set output '$img_tiempo_escenario_1'; \
+    set title 'Tiempo vs Poblaciones (Escenario 1)'; \
+    set xlabel 'Tiempo'; \
+    set ylabel 'Población'; \
+    set style line 1 lc rgb '#0060ad' lt 1 lw 3 pt 7 ps 1; \
+    set style line 2 lc rgb '#dd181f' lt 1 lw 3 pt 5 ps 1; \
+    plot '$datos_escenario_1' using 1:2 title 'Presas RK' with lines linestyle 1, \
+         '$datos_escenario_1' using 1:3 title 'Depredadores RK' with lines linestyle 2;"
+gnuplot -e "\
+    set terminal png; \
+    set output '$img_versus_escenario_1'; \
+    set title 'Presas vs Depredadores (Escenario 1)'; \
+    set xlabel 'Presas'; \
+    set ylabel 'Depredadores'; \
+    set style line 1 lc rgb '#dd181f' lt 1 lw 3 pt 7 ps 1; \
+    plot '$datos_escenario_1' using 2:3 title '' with lines linestyle 1"
+
+# Escenario 2
+eval $ESCENARIO_2
+x_e2=$x0
+y_e2=$y0
+datos_escenario_2="$carpeta/escenario_2.dat"
+img_tiempo_escenario_2="$carpeta/img/tiempo_escenario_2.png"
+img_versus_escenario_2="$carpeta/img/versus_escenario_2.png"
+
+echo -e "Generando gráficas escenario 2..."
+
+gnuplot -e "\
+    set terminal png; \
+    set output '$img_tiempo_escenario_2'; \
+    set title 'Tiempo vs Poblaciones (Escenario 2)'; \
+    set xlabel 'Tiempo'; \
+    set ylabel 'Población'; \
+    set style line 1 lc rgb '#0060ad' lt 1 lw 3 pt 7 ps 1; \
+    set style line 2 lc rgb '#dd181f' lt 1 lw 3 pt 5 ps 1; \
+    plot '$datos_escenario_2' using 1:2 title 'Presas RK' with lines linestyle 1, \
+         '$datos_escenario_2' using 1:3 title 'Depredadores RK' with lines linestyle 2;"
+gnuplot -e "\
+    set terminal png; \
+    set output '$img_versus_escenario_2'; \
+    set title 'Presas vs Depredadores (Escenario 2)'; \
+    set xlabel 'Presas'; \
+    set ylabel 'Depredadores'; \
+    set style line 1 lc rgb '#00ad00' lt 1 lw 3 pt 7 ps 1; \
+    plot '$datos_escenario_2' using 2:3 title '' with lines linestyle 1"
+
+# Escenario 3
+eval $ESCENARIO_3
+x_e3=$x0
+y_e3=$y0
+datos_escenario_3="$carpeta/escenario_3.dat"
+img_tiempo_escenario_3="$carpeta/img/tiempo_escenario_3.png"
+img_versus_escenario_3="$carpeta/img/versus_escenario_3.png"
+
+echo -e "Generando gráficas escenario 3..."
+
+gnuplot -e "\
+    set terminal png; \
+    set output '$img_tiempo_escenario_3'; \
+    set title 'Tiempo vs Poblaciones (Escenario 3)'; \
+    set xlabel 'Tiempo'; \
+    set ylabel 'Población'; \
+    set style line 1 lc rgb '#0060ad' lt 1 lw 3 pt 7 ps 1; \
+    set style line 2 lc rgb '#dd181f' lt 1 lw 3 pt 5 ps 1; \
+    plot '$datos_escenario_3' using 1:2 title 'Presas RK' with lines linestyle 1, \
+         '$datos_escenario_3' using 1:3 title 'Depredadores RK' with lines linestyle 2;"
+gnuplot -e "\
+    set terminal png; \
+    set output '$img_versus_escenario_3'; \
+    set title 'Presas vs Depredadores (Escenario 3)'; \
+    set xlabel 'Presas'; \
+    set ylabel 'Depredadores'; \
+    set style line 1 lc rgb '#ad00ad' lt 1 lw 3 pt 7 ps 1; \
+    plot '$datos_escenario_3' using 2:3 title '' with lines linestyle 1"
+
+# Comparación entre poblaciones
+img_versus_aij="$carpeta/img/versus_aij.png"
+
+gnuplot -e "\
+    set terminal png; \
+    set output '$img_versus_aij'; \
+    set title 'Presas vs Depredadores (x0=500.0 - y0=100.0)'; \
+    set xlabel 'Presas'; \
+    set ylabel 'Depredadores'; \
+    set style line 1 lc rgb '#0060ad' lt 1 lw 2 pt 7 ps 1; \
+    set style line 2 lc rgb '#dd181f' lt 1 lw 2 pt 5 ps 1; \
+    set style line 3 lc rgb '#00ad00' lt 1 lw 2 pt 9 ps 1; \
+    set style line 4 lc rgb '#ad00ad' lt 1 lw 2 pt 11 ps 1; \
+    plot '$datos_iniciales' using 2:3 title 'Escenario inicial' with lines linestyle 1,
+         '$datos_escenario_1' using 2:3 title 'Escenario 1' with lines linestyle 2,
+         '$datos_escenario_2' using 2:3 title 'Escenario 2' with lines linestyle 3,
+         '$datos_escenario_3' using 2:3 title 'Escenario 3' with lines linestyle 4;"
+
+# Euler vs Runge-Kutta con h=0.1
+eval $ESCENARIO_1
+h=0.1
+datos_euler="$carpeta/comp_euler_$h.dat"
+datos_rk="$carpeta/comp_rk_$h.dat"
+img_comp_1="$carpeta/img/comparacion_$h.png"
+
+echo -e "Generando gráficas h=0.1..."
+
+gnuplot -e "\
+    set terminal png; \
+    set output '$img_comp_1'; \
+    set title 'Tiempo vs Poblaciones (h=$h)'; \
+    set xlabel 'Tiempo'; \
+    set ylabel 'Población'; \
+    set style line 1 lc rgb '#0060ad' lt 1 lw 2 pt 7 ps 1.5; \
+    set style line 2 lc rgb '#dd181f' lt 1 lw 2 pt 5 ps 1.5; \
+    set style line 3 lc rgb '#00ad00' lt 1 lw 2 pt 9 ps 1.5; \
+    set style line 4 lc rgb '#ad00ad' lt 1 lw 2 pt 11 ps 1.5; \
+    plot '$datos_rk' using 1:2 title 'Presas RK' with lines linestyle 1, \
+         '$datos_rk' using 1:3 title 'Depredadores RK' with lines linestyle 2, \
+         '$datos_euler' using 1:2 title 'Presas Euler' with lines linestyle 3, \
+         '$datos_euler' using 1:3 title 'Depredadores Euler' with lines linestyle 4;"
+
+# Euler vs Runge-Kutta con h=0.05
+h=0.05
+datos_euler="$carpeta/comp_euler_$h.dat"
+datos_rk="$carpeta/comp_rk_$h.dat"
+img_comp_2="$carpeta/img/comparacion_$h.png"
+
+echo -e "Generando gráficas h=0.05..."
+
+gnuplot -e "\
+    set terminal png; \
+    set output '$img_comp_2'; \
+    set title 'Tiempo vs Poblaciones (h=$h)'; \
+    set xlabel 'Tiempo'; \
+    set ylabel 'Población'; \
+    set style line 1 lc rgb '#0060ad' lt 1 lw 2 pt 7 ps 1.5; \
+    set style line 2 lc rgb '#dd181f' lt 1 lw 2 pt 5 ps 1.5; \
+    set style line 3 lc rgb '#00ad00' lt 1 lw 2 pt 9 ps 1.5; \
+    set style line 4 lc rgb '#ad00ad' lt 1 lw 2 pt 11 ps 1.5; \
+    plot '$datos_rk' using 1:2 title 'Presas RK' with lines linestyle 1, \
+         '$datos_rk' using 1:3 title 'Depredadores RK' with lines linestyle 2, \
+         '$datos_euler' using 1:2 title 'Presas Euler' with lines linestyle 3, \
+         '$datos_euler' using 1:3 title 'Depredadores Euler' with lines linestyle 4;"
+
+# Euler vs Runge-Kutta con h=0.01
+h=0.01
+datos_euler="$carpeta/comp_euler_$h.dat"
+datos_rk="$carpeta/comp_rk_$h.dat"
+img_comp_3="$carpeta/img/comparacion_$h.png"
+
+echo -e "Generando gráficas h=0.01..."
+
+gnuplot -e "\
+    set terminal png; \
+    set output '$img_comp_3'; \
+    set title 'Tiempo vs Poblaciones (h=$h)'; \
+    set xlabel 'Tiempo'; \
+    set ylabel 'Población'; \
+    set style line 1 lc rgb '#0060ad' lt 1 lw 2 pt 7 ps 1.5; \
+    set style line 2 lc rgb '#dd181f' lt 1 lw 2 pt 5 ps 1.5; \
+    set style line 3 lc rgb '#00ad00' lt 1 lw 2 pt 9 ps 1.5; \
+    set style line 4 lc rgb '#ad00ad' lt 1 lw 2 pt 11 ps 1.5; \
+    plot '$datos_rk' using 1:2 title 'Presas RK' with lines linestyle 1, \
+         '$datos_rk' using 1:3 title 'Depredadores RK' with lines linestyle 2, \
+         '$datos_euler' using 1:2 title 'Presas Euler' with lines linestyle 3, \
+         '$datos_euler' using 1:3 title 'Depredadores Euler' with lines linestyle 4;"

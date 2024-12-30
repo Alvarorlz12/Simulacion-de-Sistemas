@@ -87,6 +87,16 @@ fic_euler="$carpeta/comp_euler_$h.dat"
 $BIN $EULER $a11 $a12 $a21 $a22 $tinic $tfin $h $x0 $y0 > $fic_euler 2>> $errores
 fic_rk="$carpeta/comp_rk_$h.dat"
 $BIN $RK $a11 $a12 $a21 $a22 $tinic $tfin $h $x0 $y0 > $fic_rk 2>> $errores
+h=0.001
+fic_euler="$carpeta/comp_euler_$h.dat"
+$BIN $EULER $a11 $a12 $a21 $a22 $tinic $tfin $h $x0 $y0 > $fic_euler 2>> $errores
+fic_rk="$carpeta/comp_rk_$h.dat"
+$BIN $RK $a11 $a12 $a21 $a22 $tinic $tfin $h $x0 $y0 > $fic_rk 2>> $errores
+h=0.0001
+fic_euler="$carpeta/comp_euler_$h.dat"
+$BIN $EULER $a11 $a12 $a21 $a22 $tinic $tfin $h $x0 $y0 > $fic_euler 2>> $errores
+fic_rk="$carpeta/comp_rk_$h.dat"
+$BIN $RK $a11 $a12 $a21 $a22 $tinic $tfin $h $x0 $y0 > $fic_rk 2>> $errores
 
 # Gráficos
 ./macro_graficas.sh $carpeta

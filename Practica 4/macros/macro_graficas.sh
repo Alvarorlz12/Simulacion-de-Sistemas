@@ -287,7 +287,7 @@ datos_euler="$carpeta/comp_euler_$h.dat"
 datos_rk="$carpeta/comp_rk_$h.dat"
 img_comp_1="$carpeta/img/comparacion_$h.png"
 
-echo -e "Generando gráficas h=0.1..."
+echo -e "Generando gráficas h=$h..."
 
 gnuplot -e "\
     set terminal png; \
@@ -310,7 +310,7 @@ datos_euler="$carpeta/comp_euler_$h.dat"
 datos_rk="$carpeta/comp_rk_$h.dat"
 img_comp_2="$carpeta/img/comparacion_$h.png"
 
-echo -e "Generando gráficas h=0.05..."
+echo -e "Generando gráficas h=$h..."
 
 gnuplot -e "\
     set terminal png; \
@@ -333,7 +333,53 @@ datos_euler="$carpeta/comp_euler_$h.dat"
 datos_rk="$carpeta/comp_rk_$h.dat"
 img_comp_3="$carpeta/img/comparacion_$h.png"
 
-echo -e "Generando gráficas h=0.01..."
+echo -e "Generando gráficas h=$h..."
+
+gnuplot -e "\
+    set terminal png; \
+    set output '$img_comp_3'; \
+    set title 'Tiempo vs Poblaciones (h=$h)'; \
+    set xlabel 'Tiempo'; \
+    set ylabel 'Población'; \
+    set style line 1 lc rgb '#0060ad' lt 1 lw 2 pt 7 ps 1.5; \
+    set style line 2 lc rgb '#dd181f' lt 1 lw 2 pt 5 ps 1.5; \
+    set style line 3 lc rgb '#00ad00' lt 1 lw 2 pt 9 ps 1.5; \
+    set style line 4 lc rgb '#ad00ad' lt 1 lw 2 pt 11 ps 1.5; \
+    plot '$datos_rk' using 1:2 title 'Presas RK' with lines linestyle 1, \
+         '$datos_rk' using 1:3 title 'Depredadores RK' with lines linestyle 2, \
+         '$datos_euler' using 1:2 title 'Presas Euler' with lines linestyle 3, \
+         '$datos_euler' using 1:3 title 'Depredadores Euler' with lines linestyle 4;"
+
+# Euler vs Runge-Kutta con h=0.001
+h=0.001
+datos_euler="$carpeta/comp_euler_$h.dat"
+datos_rk="$carpeta/comp_rk_$h.dat"
+img_comp_3="$carpeta/img/comparacion_$h.png"
+
+echo -e "Generando gráficas h=$h..."
+
+gnuplot -e "\
+    set terminal png; \
+    set output '$img_comp_3'; \
+    set title 'Tiempo vs Poblaciones (h=$h)'; \
+    set xlabel 'Tiempo'; \
+    set ylabel 'Población'; \
+    set style line 1 lc rgb '#0060ad' lt 1 lw 2 pt 7 ps 1.5; \
+    set style line 2 lc rgb '#dd181f' lt 1 lw 2 pt 5 ps 1.5; \
+    set style line 3 lc rgb '#00ad00' lt 1 lw 2 pt 9 ps 1.5; \
+    set style line 4 lc rgb '#ad00ad' lt 1 lw 2 pt 11 ps 1.5; \
+    plot '$datos_rk' using 1:2 title 'Presas RK' with lines linestyle 1, \
+         '$datos_rk' using 1:3 title 'Depredadores RK' with lines linestyle 2, \
+         '$datos_euler' using 1:2 title 'Presas Euler' with lines linestyle 3, \
+         '$datos_euler' using 1:3 title 'Depredadores Euler' with lines linestyle 4;"
+         
+# Euler vs Runge-Kutta con h=0.0001
+h=0.0001
+datos_euler="$carpeta/comp_euler_$h.dat"
+datos_rk="$carpeta/comp_rk_$h.dat"
+img_comp_3="$carpeta/img/comparacion_$h.png"
+
+echo -e "Generando gráficas h=$h..."
 
 gnuplot -e "\
     set terminal png; \

@@ -12,7 +12,7 @@ using namespace std;
 const int numeq = 2;
 double a11, a12, a21, a22;
 double tinic, tfin, dt, t;
-double estado[numeq], oldestado[numeq], f[numeq];
+double estado[numeq], oldestado[numeq], f_bak[numeq];
 double k[numeq][4];
 
 void fijar_parametros() {
@@ -30,6 +30,7 @@ void derivacion(const double est[], double f[], double tt) {
 }
 
 void one_step_euler(const double inp[], double out[], double tt, double hh) {
+    double f[numeq];
     derivacion(inp, f, tt);
     for (int i = 0; i < numeq; i++) {
         out[i] = inp[i] + (hh * f[i]);
@@ -37,6 +38,7 @@ void one_step_euler(const double inp[], double out[], double tt, double hh) {
 }
 
 void one_step_runge_kutta(const double inp[], double out[], double tt, double hh) {
+    double f[numeq];
     for (int i = 0; i < numeq; i++) out[i] = inp[i];
     double time = tt;
     for (int j = 0; j < 4; j++) {

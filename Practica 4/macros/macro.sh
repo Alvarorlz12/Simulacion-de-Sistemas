@@ -71,7 +71,7 @@ $BIN $RK $a11 $a12 $a21 $a22 $tinic $tfin $dt $x0 $y0 > $fic_escenario_3 2>> $er
 
 # Punto 5. Comparación de métodos
 echo -e "Punto 5. Comparación de métodos"
-eval $ESCENARIO_2
+eval $COMPARACION
 h=0.1
 fic_euler="$carpeta/comp_euler_$h.dat"
 $BIN $EULER $a11 $a12 $a21 $a22 $tinic $tfin $h $x0 $y0 > $fic_euler 2>> $errores
